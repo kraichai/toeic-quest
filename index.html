@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>TOEIC Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#141428; --card:#1f1f3d; --card2:#2a2a52; --text:#f4f3ff; --muted:#a9a7cf;
+  --g:#ffb547; --v:#4fd1c5; --r:#b388ff; --ok:#3ddc84; --bad:#ff5c7a;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:'Prompt',system-ui,sans-serif;background:radial-gradient(circle at 20% 0%,#2b2160 0,var(--bg) 55%);color:var(--text);
+  padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 20px);min-height:100%;user-select:none}
+.wrap{max-width:480px;margin:0 auto}
+.hidden{display:none!important}
+button{font-family:inherit;border:0;cursor:pointer;color:inherit}
+
+/* HOME */
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.logo{font-weight:800;font-size:24px;letter-spacing:.5px}
+.logo span{color:var(--g)}
+.streak{background:var(--card);padding:6px 12px;border-radius:99px;font-weight:600;font-size:14px}
+.profile{background:linear-gradient(135deg,#3a2f80,#26245a);border-radius:22px;padding:18px;margin-bottom:18px;box-shadow:0 8px 24px #0005}
+.lvrow{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:10px}
+.lv{font-size:30px;font-weight:800;line-height:1}
+.rank{font-size:13px;color:var(--muted);margin-top:4px}
+.xptxt{font-size:13px;color:var(--muted);text-align:right}
+.bar{height:12px;background:#0004;border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--g),#ff7a59);border-radius:99px;transition:width .6s}
+.stats{display:flex;gap:8px;margin-top:14px}
+.stat{flex:1;background:#0003;border-radius:12px;padding:8px;text-align:center}
+.stat b{display:block;font-size:18px}
+.stat small{font-size:11px;color:var(--muted)}
+h3{font-size:15px;color:var(--muted);font-weight:500;margin:4px 4px 10px}
+.mode{display:flex;align-items:center;gap:14px;width:100%;background:var(--card);border-radius:20px;padding:16px;margin-bottom:12px;text-align:left;
+  border:2px solid transparent;transition:transform .1s}
+.mode:active{transform:scale(.97)}
+.mode .ic{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:26px;flex-shrink:0}
+.mode b{font-size:18px;display:block}
+.mode small{color:var(--muted);font-size:13px;line-height:1.4;display:block}
+.mode .best{margin-left:auto;font-size:12px;color:var(--muted);text-align:right;white-space:nowrap}
+.mode.g .ic{background:#ffb54722}.mode.g{border-color:#ffb54733}
+.mode.v .ic{background:#4fd1c522}.mode.v{border-color:#4fd1c533}
+.mode.r .ic{background:#b388ff22}.mode.r{border-color:#b388ff33}
+.mode.m .ic{background:#ff5c7a22}.mode.m{border-color:#ff5c7a33}
+.mode.gv .ic{background:#7bd38922}.mode.gv{border-color:#7bd38955}
+.mode.soon{opacity:.5}
+.mode.dv .ic{background:#4fd1c522}.mode.dv{border-color:#4fd1c566;background:linear-gradient(135deg,#173f44,var(--card))}
+.mode.dv.done{border-color:#3ddc8455;background:var(--card)}
+.wcard{background:var(--card);border-radius:16px;padding:14px;margin-bottom:10px}
+.wcard .top1{display:flex;align-items:center;gap:8px}
+.wcard .w{font-size:22px;font-weight:700}
+.wcard .pos{font-size:12px;color:var(--muted);background:#0003;border-radius:8px;padding:2px 8px}
+.wcard .say{margin-left:auto;background:#4fd1c533;width:38px;height:38px;border-radius:12px;font-size:18px}
+.wcard .th{color:var(--v);font-size:16px;margin:4px 0 6px}
+.wcard .exs{font-size:14px;color:#dcdaf7;line-height:1.5;font-style:italic}
+.wcard .exs mark{background:none;color:var(--g);font-weight:700;font-style:normal}
+.wcard.rvw{border-left:4px solid #ff7ac6}
+.sec{margin:16px 4px 10px;font-weight:600;color:var(--muted)}
+.mode.rv .ic{background:#ff7ac622}.mode.rv{border-color:#ff7ac666;background:linear-gradient(135deg,#4a2350,var(--card));margin-bottom:18px}
+.mode.rv.done{border-color:#3ddc8455;background:var(--card)}
+.pill{display:inline-block;background:var(--bad);color:#fff;font-weight:800;border-radius:99px;padding:4px 10px;font-size:14px}
+.pill.ok{background:var(--ok);color:#06301a}
+.weak{color:#ff9db8;font-size:11px;display:block}
+.mode.ac .ic{background:#5b8cff22}.mode.ac{border-color:#5b8cff66;background:linear-gradient(135deg,#25305e,var(--card))}
+.unit{display:flex;justify-content:space-between;align-items:center;margin:18px 4px 10px}
+.unit b{font-size:15px}
+.ubtn{background:#5b8cff33;color:#cfe0ff;padding:7px 12px;border-radius:99px;font-size:13px;font-weight:600}
+.les{display:flex;align-items:center;gap:12px;width:100%;background:var(--card);border-radius:16px;padding:12px 14px;margin-bottom:8px;text-align:left}
+.les:active{transform:scale(.98)}
+.les .ic{font-size:22px;width:40px;height:40px;border-radius:12px;background:#0003;display:grid;place-items:center;flex-shrink:0}
+.les b{display:block;font-size:16px}.les small{color:var(--muted);font-size:12px}
+.les .st{margin-left:auto;font-size:12px;text-align:right;white-space:nowrap;color:var(--muted)}
+.lesson{background:var(--card);border-radius:20px;padding:16px 16px 6px;margin-bottom:110px;line-height:1.65;font-size:15px}
+.lesson h4{font-size:17px;color:#9fbcff;margin:14px 0 6px}.lesson h4:first-child{margin-top:0}
+.lesson p{margin-bottom:8px;color:#e4e2ff}
+.lesson .eg{background:#0003;border-left:3px solid #5b8cff;border-radius:10px;padding:10px 12px;margin:6px 0 10px;font-size:14.5px}
+.lesson .eg b,.lesson p b{color:var(--g)}
+.lesson .tip{background:#ffb5471a;border:1px solid #ffb54744;border-radius:12px;padding:10px 12px;margin:12px 0;font-size:14px}
+.lesson table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13.5px}
+.lesson th{background:#5b8cff33;text-align:left;padding:7px 8px}
+.lesson td{padding:7px 8px;border-bottom:1px solid #ffffff14;vertical-align:top}
+.lesson table.small{font-size:12px}.lesson table.small td,.lesson table.small th{padding:6px 4px;text-align:center}
+.dock{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(env(safe-area-inset-bottom) + 12px);background:linear-gradient(transparent,var(--bg) 30%);z-index:4}
+.dock .in{max-width:480px;margin:0 auto;display:flex;gap:10px}
+.dock button{flex:1;padding:14px 8px;border-radius:16px;font-size:16px;font-weight:700}
+.dock .p{background:#5b8cff;color:#fff}.dock .e{background:var(--g);color:#2a1d00}
+.lhead{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.lhead .t{font-size:20px;font-weight:700;line-height:1.2}.lhead small{color:var(--muted);font-size:13px;display:block;font-weight:400}
+.ex{font-size:15px;color:#dcdaf7;line-height:1.6;margin-top:12px;background:#0003;border-radius:12px;padding:10px 12px;text-align:left;font-weight:400}
+.ex mark{background:none;color:var(--accent);font-weight:700}
+.biz{display:inline-block;font-size:11px;background:#ffb54733;color:var(--g);padding:2px 8px;border-radius:99px;margin-left:6px;vertical-align:middle}
+
+/* PLAY */
+.hud{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.x{background:var(--card);width:38px;height:38px;border-radius:12px;font-size:18px}
+.prog{flex:1;height:10px;background:var(--card);border-radius:99px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent,var(--g));transition:width .3s}
+.hearts{font-size:18px;letter-spacing:1px}
+.scorebar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-weight:600}
+.score{font-size:22px}
+.combo{background:linear-gradient(90deg,#ff7a59,var(--g));color:#241a00;padding:4px 12px;border-radius:99px;font-size:14px;font-weight:800;transform:scale(0);transition:transform .2s}
+.combo.on{transform:scale(1)}
+.combo.pop{animation:pop .35s}
+@keyframes pop{50%{transform:scale(1.3)}}
+.timer{height:6px;background:var(--card);border-radius:99px;overflow:hidden;margin-bottom:14px}
+.timer i{display:block;height:100%;width:100%;background:var(--ok)}
+.qcard{background:var(--card);border-radius:20px;padding:18px;margin-bottom:14px;min-height:110px}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;background:#0003;color:var(--accent);margin-bottom:10px;letter-spacing:.5px}
+.passage{background:#0003;border-radius:14px;padding:12px;font-size:14px;line-height:1.6;margin-bottom:12px;max-height:38vh;overflow:auto;color:#dcdaf7;white-space:pre-line}
+.q{font-size:19px;font-weight:500;line-height:1.5}
+.q .blank{display:inline-block;min-width:64px;border-bottom:3px solid var(--accent);margin:0 3px}
+.q.big{font-size:30px;font-weight:700;text-align:center;padding:10px 0}
+.hint{font-size:13px;color:var(--muted);text-align:center}
+.opts{display:grid;gap:10px}
+.opt{background:var(--card2);border-radius:16px;padding:15px 16px;font-size:17px;text-align:left;border:2px solid transparent;display:flex;gap:12px;align-items:center;transition:transform .1s}
+.opt:active{transform:scale(.98)}
+.opt .k{width:28px;height:28px;border-radius:9px;background:#0003;display:grid;place-items:center;font-size:13px;font-weight:700;flex-shrink:0}
+.opt.ok{background:#3ddc8433;border-color:var(--ok)}
+.opt.bad{background:#ff5c7a33;border-color:var(--bad);animation:shake .35s}
+.opt.dim{opacity:.45}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fb{position:fixed;left:0;right:0;bottom:0;padding:16px 16px calc(env(safe-area-inset-bottom) + 16px);border-radius:24px 24px 0 0;transform:translateY(110%);transition:transform .25s;z-index:5}
+.fb.show{transform:none}
+.fb.good{background:#173f2e}.fb.wrong{background:#4a1a28}
+.fb .in{max-width:480px;margin:0 auto}
+.fb h4{font-size:20px;margin-bottom:4px}
+.fb p{white-space:pre-line;font-size:14px;color:#e6e4ff;line-height:1.5;margin-bottom:12px}
+.btn{width:100%;padding:15px;border-radius:16px;font-size:17px;font-weight:700;background:var(--g);color:#2a1d00}
+.fb.good .btn{background:var(--ok);color:#06301a}
+.fb.wrong .btn{background:var(--bad);color:#fff}
+.float{position:fixed;font-weight:800;font-size:22px;color:var(--g);pointer-events:none;animation:up .9s forwards;z-index:9}
+@keyframes up{to{transform:translateY(-60px);opacity:0}}
+
+/* END */
+.end{text-align:center;padding-top:10px}
+.stars{font-size:46px;margin:6px 0;letter-spacing:6px}
+.end h2{font-size:28px}
+.big{font-size:52px;font-weight:800;color:var(--g);line-height:1.1}
+.sub{color:var(--muted);margin-bottom:16px}
+.grid3{display:flex;gap:8px;margin-bottom:16px}
+.grid3 div{flex:1;background:var(--card);border-radius:14px;padding:10px}
+.grid3 b{display:block;font-size:20px}
+.grid3 small{color:var(--muted);font-size:12px}
+.lvup{background:linear-gradient(90deg,#ff7a59,var(--g));color:#2a1d00;border-radius:14px;padding:10px;font-weight:700;margin-bottom:14px}
+.review{text-align:left;margin:14px 0}
+.rv{background:var(--card);border-radius:14px;padding:12px;margin-bottom:8px;font-size:14px;line-height:1.5}
+.rv b{color:var(--ok)}
+.rv small{white-space:pre-line;color:var(--muted);display:block;margin-top:4px}
+.btn2{width:100%;padding:14px;border-radius:16px;font-size:16px;font-weight:600;background:var(--card);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HOME -->
+<section id="home">
+  <div class="top">
+    <div class="logo">TOEIC <span>Quest</span></div>
+    <div class="streak" id="streak">🔥 0 วัน</div>
+  </div>
+  <div class="profile">
+    <div class="lvrow">
+      <div><div class="lv" id="lv">Lv.1</div><div class="rank" id="rank"></div></div>
+      <div class="xptxt" id="xptxt"></div>
+    </div>
+    <div class="bar"><i id="xpbar" style="width:0"></i></div>
+    <div class="stats">
+      <div class="stat"><b id="sPlayed">0</b><small>รอบที่เล่น</small></div>
+      <div class="stat"><b id="sAcc">0%</b><small>ความแม่นยำ</small></div>
+      <div class="stat"><b id="sCombo">0</b><small>คอมโบสูงสุด</small></div>
+    </div>
+  </div>
+  <button class="mode rv" id="openReview"><div class="ic">🔁</div><div><b>ทบทวนวันนี้</b><small id="rvSub">ข้อที่เคยผิด + บทที่ควรทวน</small></div><div class="best" id="rvBadge"></div></button>
+  <button class="mode dv" id="openDaily"><div class="ic">📅</div><div><b>Daily Vocab</b><small id="dvSub">วันละ 10 คำ</small></div><div class="best" id="dvBadge"></div></button>
+  <h3>เลือกโหมด</h3>
+  <button class="mode ac" id="openAcademy"><div class="ic">📘</div><div><b>Grammar Academy</b><small>เรียน 18 บท · คลังข้อสอบกว่า 1 แสนข้อ</small></div><div class="best" id="b-academy"></div></button>
+  <button class="mode g" data-mode="grammar"><div class="ic">⚡</div><div><b>Grammar Rush</b><small>สุ่มจากคลังรวม 11 หมื่นข้อ · 10 ข้อ · ข้อละ 20 วิ</small></div><div class="best" id="b-grammar"></div></button>
+  <button class="mode v" data-mode="vocab"><div class="ic">🃏</div><div><b>Vocab Blitz</b><small>ศัพท์ TOEIC · 12 ข้อ · ข้อละ 10 วิ</small></div><div class="best" id="b-vocab"></div></button>
+  <button class="mode r" data-mode="reading"><div class="ic">📄</div><div><b>Reading Mission</b><small>Part 7 · อ่าน 2 เรื่อง · ไม่จับเวลา</small></div><div class="best" id="b-reading"></div></button>
+  <button class="mode m" data-mode="mix"><div class="ic">🎲</div><div><b>Quick Mix</b><small>Grammar + Vocab คละกัน · 15 ข้อ</small></div><div class="best" id="b-mix"></div></button>
+  <button class="mode gv" id="openGames"><div class="ic">🎮</div><div><b>Game Vocab</b><small>เรียนศัพท์จากเกมที่ชอบ · 12 ข้อ · ข้อละ 15 วิ</small></div><div class="best">เลือกเกม ›</div></button>
+</section>
+
+<!-- GAME PICKER -->
+<section id="games" class="hidden">
+  <div class="hud"><button class="x" id="gBack">‹</button><div class="logo" style="font-size:20px">🎮 Game Vocab</div></div>
+  <p class="sub" style="text-align:left;margin:4px 4px 14px">ศัพท์ที่เจอในเกม พร้อมประโยคตัวอย่างจากเนื้อเรื่อง คำที่มีป้าย 💼 ออกสอบ TOEIC ด้วย</p>
+  <div id="gameList"></div>
+</section>
+
+<!-- ACADEMY -->
+<section id="academy" class="hidden">
+  <div class="hud"><button class="x" id="aBack">‹</button><div class="logo" style="font-size:20px">📘 Grammar Academy</div></div>
+  <div class="profile" style="padding:14px;margin-bottom:6px">
+    <div class="lvrow" style="margin-bottom:8px"><div style="font-weight:600">ความคืบหน้า</div><div class="xptxt" id="acTxt"></div></div>
+    <div class="bar"><i id="acBar" style="width:0;background:linear-gradient(90deg,#5b8cff,#4fd1c5)"></i></div>
+  </div>
+  <div id="unitList"></div>
+</section>
+
+<!-- LESSON -->
+<section id="lesson" class="hidden">
+  <div class="lhead"><button class="x" id="lBack">‹</button><div class="t" id="lTitle"></div></div>
+  <div class="lesson" id="lBody"></div>
+  <div class="dock"><div class="in"><button class="p" id="lPractice">✏️ ฝึกทำ</button><button class="e" id="lExam">📝 สอบบทนี้</button></div></div>
+</section>
+
+<!-- DAILY VOCAB -->
+<section id="daily" class="hidden">
+  <div class="lhead"><button class="x" id="dBack">‹</button><div class="t" id="dTitle"></div></div>
+  <div class="profile" style="padding:14px;margin-bottom:6px">
+    <div class="lvrow" style="margin-bottom:8px"><div style="font-weight:600">300 คำ</div><div class="xptxt" id="dvTxt"></div></div>
+    <div class="bar"><i id="dvBar" style="width:0;background:linear-gradient(90deg,#4fd1c5,#3ddc84)"></i></div>
+  </div>
+  <div id="dList" style="margin-bottom:110px"></div>
+  <div class="dock"><div class="in"><button class="e" id="dStart" style="background:var(--v);color:#06302c">เริ่มทดสอบ</button></div></div>
+</section>
+
+<!-- PLAY -->
+<section id="play" class="hidden">
+  <div class="hud">
+    <button class="x" id="quit">✕</button>
+    <div class="prog"><i id="prog"></i></div>
+    <div class="hearts" id="hearts"></div>
+  </div>
+  <div class="scorebar"><div class="score" id="score">0</div><div class="combo" id="combo">x2 COMBO</div></div>
+  <div class="timer" id="timerWrap"><i id="timer"></i></div>
+  <div class="qcard">
+    <div class="tag" id="tag"></div>
+    <div class="passage hidden" id="passage"></div>
+    <div class="q" id="q"></div>
+  </div>
+  <div class="opts" id="opts"></div>
+</section>
+
+<!-- END -->
+<section id="end" class="hidden end">
+  <div class="stars" id="stars"></div>
+  <h2 id="endTitle"></h2>
+  <div class="big" id="endScore">0</div>
+  <div class="sub" id="endSub"></div>
+  <div class="lvup hidden" id="lvup"></div>
+  <div class="grid3">
+    <div><b id="eCorrect">0</b><small>ตอบถูก</small></div>
+    <div><b id="eCombo">0</b><small>คอมโบสูงสุด</small></div>
+    <div><b id="eXp">+0</b><small>XP</small></div>
+  </div>
+  <button class="btn" id="again">เล่นอีกครั้ง</button>
+  <button class="btn2" id="home2">กลับหน้าหลัก</button>
+  <div class="review" id="review"></div>
+</section>
+</div>
+
+<div class="fb" id="fb"><div class="in"><h4 id="fbT"></h4><p id="fbP"></p><button class="btn" id="next">ต่อไป</button></div></div>
+
+<script>
+/* ===== DATA ===== */
+const GRAMMAR = [
+["The new policy will take effect ___ January 1.",["on","in","at","by"],0,"วันที่เฉพาะเจาะจงใช้ on (on January 1)"],
+["All employees are required ___ their ID badges.",["wear","wearing","to wear","wore"],2,"be required to + V1 = ถูกกำหนดให้ต้องทำ"],
+["The manager is looking forward to ___ the new team.",["meet","meeting","met","meets"],1,"look forward to + V-ing (to ตรงนี้เป็นบุพบท)"],
+["Please submit your application ___ Friday at the latest.",["until","by","since","during"],1,"by = ภายใน (เส้นตาย) ส่วน until = ต่อเนื่องจนถึง"],
+["Mr. Lee, ___ has worked here for ten years, will retire soon.",["who","which","whose","whom"],0,"แทนคนที่เป็นประธานของกริยา has worked ใช้ who"],
+["The conference room is ___ larger than the one on the second floor.",["much","more","very","most"],0,"เน้นขั้นกว่าใช้ much/far/a lot + comparative (very ใช้ไม่ได้)"],
+["If the shipment ___ late, we will contact the supplier.",["arrives","will arrive","arrived","arriving"],0,"If แบบที่ 1: If + Present Simple, will + V1"],
+["The proposal was ___ reviewed by the committee.",["careful","carefully","care","caring"],1,"ขยายกริยา reviewed ต้องใช้ adverb"],
+["Neither the manager nor the assistants ___ available today.",["is","are","be","being"],1,"neither…nor… กริยาผันตามคำนามที่อยู่ใกล้ (assistants → are)"],
+["The company has been operating in Asia ___ 2015.",["for","since","from","at"],1,"since + จุดเวลาที่เริ่ม, for + ช่วงระยะเวลา"],
+["___ the heavy rain, the event was held as scheduled.",["Although","Despite","Because","However"],1,"Despite + คำนาม/V-ing ส่วน Although + ประโยค"],
+["The report must be ___ by the end of the day.",["complete","completing","completed","completes"],2,"Passive: must be + V3"],
+["Ms. Park asked her assistant to ___ the meeting to Thursday.",["postpone","postponing","postponed","postpones"],0,"ask someone to + V1"],
+["This is the ___ product we have ever launched.",["successful","more successful","most successful","success"],2,"the + ขั้นสุด ใช้คู่กับ have ever"],
+["Customers can return items ___ they have the original receipt.",["as long as","so that","even though","unless"],0,"as long as = ตราบใดที่ (มีเงื่อนไข)"],
+["The training session ___ next Monday.",["holds","will be held","is holding","held"],1,"การอบรมถูกจัด (passive) ในอนาคต → will be held"],
+["The hotel ___ we stayed was close to the airport.",["where","which","who","what"],0,"แทนสถานที่ที่ตามด้วยประโยคสมบูรณ์ใช้ where"],
+["Each of the applicants ___ an interview next week.",["have","has","are having","were"],1,"Each of + พหูพจน์ → กริยาเอกพจน์"],
+["The sales team exceeded ___ target this quarter.",["its","it's","their's","it"],0,"its = ของมัน (คำแสดงความเป็นเจ้าของ) ส่วน it's = it is"],
+["Please contact ___ if you have any questions.",["I","my","me","mine"],2,"กรรมของกริยา contact ใช้ me"],
+["The CEO, ___ speech was well received, thanked all staff.",["who","whose","whom","which"],1,"whose + คำนาม = ซึ่ง…ของเขา"],
+["By the time the guests arrived, the staff ___ the hall.",["decorate","had decorated","have decorated","will decorate"],1,"เหตุการณ์ที่เสร็จก่อนอีกเหตุการณ์ในอดีต → Past Perfect"],
+["The package should arrive ___ three business days.",["within","among","between","along"],0,"within + ช่วงเวลา = ภายใน"],
+["Mr. Kim is responsible ___ managing the budget.",["of","for","to","with"],1,"be responsible for = รับผิดชอบ"],
+["The price of fuel has increased ___ over the past year.",["significant","significantly","significance","signify"],1,"ขยายกริยา increased ใช้ adverb"],
+["Not only is the hotel affordable, ___ it is also centrally located.",["and","or","but","so"],2,"Not only … but (also) …"],
+["Ms. Rivera would rather ___ by train than by plane.",["travel","to travel","traveling","traveled"],0,"would rather + V1"],
+["The board ___ the merger at yesterday's meeting.",["approve","approved","approves","approving"],1,"yesterday บอกอดีต → Past Simple"],
+["Visitors are asked to sign in ___ entering the building.",["before","until","while","during"],0,"before + V-ing = ก่อนที่จะ"],
+["The new software is ___ easier to use than the old version.",["far","very","too","so"],0,"far + ขั้นกว่า = …กว่ามาก"],
+["Ms. Chen has ___ finished the presentation slides.",["yet","already","still","ever"],1,"already วางระหว่าง have กับ V3 ในประโยคบอกเล่า"],
+["The marketing department is seeking an ___ designer.",["experience","experienced","experiencing","experiences"],1,"experienced (adj.) = มีประสบการณ์ ขยายคำนาม designer"],
+["The factory produces ___ 500 units per day.",["approximately","approximate","approximation","approximated"],0,"ขยายตัวเลขใช้ adverb approximately = ประมาณ"],
+["Our office will be closed ___ the holiday period.",["while","during","when","within"],1,"during + คำนาม ส่วน while + ประโยค"],
+["It is essential that every staff member ___ the safety guidelines.",["follow","follows","followed","following"],0,"It is essential that + S + V1 (subjunctive ไม่เติม s)"],
+["The flight was delayed ___ bad weather.",["because","due to","since","so"],1,"due to + คำนาม ส่วน because + ประโยค"],
+["Mr. Ito suggested ___ the deadline by one week.",["extend","to extend","extending","extended"],2,"suggest + V-ing"],
+["The more you practice, ___ your score will be.",["the high","higher","the higher","highest"],2,"The + ขั้นกว่า…, the + ขั้นกว่า… = ยิ่ง…ยิ่ง…"],
+["We will ship your order as soon as payment ___.",["is received","will be received","receives","received"],0,"as soon as ใช้ปัจจุบันแทนอนาคต + passive"],
+["Ms. Gomez is ___ qualified candidate for the position.",["the most","most","more","much"],0,"the most + adj. + คำนาม = ที่สุด"]
+];
+
+const VOCAB = [
+["invoice","ใบแจ้งหนี้"],["deadline","กำหนดส่ง"],["postpone","เลื่อนออกไป"],["revenue","รายได้"],
+["reimburse","จ่ายเงินคืน (เบิกค่าใช้จ่าย)"],["applicant","ผู้สมัคร"],["merger","การควบรวมกิจการ"],["itinerary","กำหนดการเดินทาง"],
+["inventory","สินค้าคงคลัง"],["refund","เงินคืน"],["warranty","การรับประกันสินค้า"],["colleague","เพื่อนร่วมงาน"],
+["budget","งบประมาณ"],["negotiate","เจรจาต่อรอง"],["attendee","ผู้เข้าร่วมงาน"],["agenda","วาระการประชุม"],
+["shipment","การจัดส่งสินค้า"],["supervisor","หัวหน้างาน"],["resign","ลาออก"],["hire","จ้างงาน"],
+["branch","สาขา"],["headquarters","สำนักงานใหญ่"],["expense","ค่าใช้จ่าย"],["estimate","ประมาณการ"],
+["quarterly","รายไตรมาส"],["confidential","เป็นความลับ"],["mandatory","ภาคบังคับ"],["implement","นำไปปฏิบัติใช้"],
+["renovation","การปรับปรุงซ่อมแซม"],["reservation","การจอง"],["complimentary","ให้ฟรี"],["vendor","ผู้ขาย"],
+["contract","สัญญา"],["deposit","เงินมัดจำ"],["expire","หมดอายุ"],["launch","เปิดตัว"],
+["survey","แบบสำรวจ"],["feedback","ความคิดเห็นตอบกลับ"],["qualification","คุณสมบัติ"],["relocate","ย้ายที่ตั้ง"],
+["shareholder","ผู้ถือหุ้น"],["retail","การขายปลีก"],["wholesale","การขายส่ง"],["commute","เดินทางไปทำงาน"],
+["delegate","มอบหมายงาน"],["comply","ปฏิบัติตาม"],["outstanding","ค้างชำระ"],["tentative","ยังไม่แน่นอน"],
+["promotion","การเลื่อนตำแหน่ง"],["subsidiary","บริษัทในเครือ"]
+];
+
+const READING = [
+{t:"EMAIL",p:`From: Facilities Department
+To: All Staff
+Subject: Office Renovation
+
+Starting Monday, March 10, the third floor will be closed for renovation for about two weeks. During this period, the Marketing team will move temporarily to Conference Room B on the first floor.
+
+Please pack your personal items by Friday afternoon. Boxes are available at the front desk. We apologize for any inconvenience.`,
+qs:[
+["What is the main purpose of the email?",["To announce a renovation and a temporary move","To introduce new staff members","To invite staff to a party","To report monthly sales"]],
+["Where will the Marketing team work during the renovation?",["In Conference Room B","On the third floor","At the front desk","In another building"]],
+["What should staff do by Friday afternoon?",["Pack their personal items","Submit a report","Attend a meeting","Order new furniture"]]
+]},
+{t:"ADVERTISEMENT",p:`Greenline Café — Now Open Downtown!
+
+Celebrate our grand opening from June 1 to June 7. Every customer receives a complimentary pastry with any drink purchase. Members of our loyalty program earn double points all week.
+
+Open daily 7 a.m.–8 p.m. Closed on public holidays.`,
+qs:[
+["What is being advertised?",["The opening of a new café","A cooking class","A job opening","A holiday tour"]],
+["What do customers get when they buy a drink?",["A free pastry","A 50% discount","A second drink","A gift card"]],
+["The word \"complimentary\" is closest in meaning to",["free","polite","expensive","extra"]]
+]},
+{t:"JOB AD",p:`Northway Logistics is seeking a full-time Customer Service Representative for its Bangkok branch.
+
+Candidates must have at least two years of experience and be fluent in English and Thai. Responsibilities include answering client inquiries and tracking shipments.
+
+To apply, send your résumé to the HR Department by April 30. Shortlisted candidates will be contacted for an interview in early May.`,
+qs:[
+["What is a requirement for the position?",["Two years of experience","A driver's license","A master's degree","Ability to speak Chinese"]],
+["What is one of the job duties?",["Tracking shipments","Repairing vehicles","Managing the budget","Training new staff"]],
+["What will happen in early May?",["Interviews will be held","A new branch will open","Applications will start","Training will begin"]]
+]},
+{t:"MEMO",p:`To: All Sales Staff
+From: Daniel Wong
+
+The quarterly sales meeting originally scheduled for Thursday has been moved to Friday at 10 a.m. because of a client visit. The meeting will now take place online instead of in the main conference room.
+
+A link will be sent by email on Thursday afternoon. Please prepare a short summary of your monthly figures.`,
+qs:[
+["Why was the meeting rescheduled?",["Because of a client visit","Because of a holiday","Because the room is being repaired","Because the manager is sick"]],
+["How will the meeting be held?",["Online","In the main conference room","At a client's office","By phone"]],
+["What are staff asked to prepare?",["A summary of monthly figures","A presentation for the client","A travel plan","A new contract"]]
+]},
+{t:"NOTICE",p:`Riverside Public Library — Notice to Members
+
+From July 1, the library will extend its weekend hours. On Saturdays and Sundays, it will now close at 8 p.m. instead of 5 p.m.
+
+In addition, members can now borrow up to ten books at a time, an increase from six. E-books can be borrowed through the library's mobile app.`,
+qs:[
+["What change will begin on July 1?",["Longer weekend hours","A new library branch","Higher membership fees","Closing on Sundays"]],
+["How many books can members borrow now?",["Ten","Six","Five","Eight"]],
+["According to the notice, how can members borrow e-books?",["Through a mobile app","At the front desk","By email","By phone"]]
+]}
+];
+
+/* Game vocab: [word, Thai meaning, example sentence, TOEIC word?] */
+const GAMES={
+ oot:{name:"Zelda: Ocarina of Time",emoji:"🗡️",words:[
+["courage","ความกล้าหาญ","Link shows great courage when he enters the dark temple alone."],
+["wisdom","ปัญญา","Princess Zelda is known for her wisdom and her prophetic dreams."],
+["legend","ตำนาน","The legend says a hero will appear when the kingdom is in danger."],
+["destiny","โชคชะตา","It is Link's destiny to save the land of Hyrule."],
+["kingdom","อาณาจักร","Ganondorf wants to rule the whole kingdom."],
+["sacred","ศักดิ์สิทธิ์","The Triforce rests inside the Sacred Realm."],
+["sage","ผู้ปราชญ์ (เซจ)","Link must awaken each sage hidden in the temples."],
+["seal","ผนึก","The sages work together to seal Ganondorf away."],
+["temple","วิหาร","The Forest Temple is full of ghosts and tricky puzzles."],
+["dungeon","ดันเจี้ยน (ด่านใต้ดิน)","Every dungeon has a map, a compass and a boss."],
+["obtain","ได้รับ / ได้มา","Link obtains a new item in almost every dungeon.",1],
+["collect","เก็บรวบรวม","Link must collect three Spiritual Stones to open the Door of Time.",1],
+["restore","ฟื้นฟู / คืนสภาพ","Defeating the boss restores peace to the area.",1],
+["defeat","เอาชนะ","Link finally defeats Ganondorf at the top of the castle."],
+["rescue","ช่วยชีวิต / กู้ภัย","Link rescues the Gorons who are trapped in the Fire Temple."],
+["ancient","โบราณ","The Temple of Time is an ancient building in Castle Town."],
+["curse","คำสาป","A terrible curse made the Great Deku Tree weak and sick."],
+["guardian","ผู้พิทักษ์","The Great Deku Tree is the guardian of the forest."],
+["villain","ตัวร้าย","Ganondorf is the main villain of the story."],
+["merchant","พ่อค้า","A merchant in the market sells bombs and arrows.",1],
+["purchase","ซื้อ","You can purchase shields and potions at the shops in town.",1],
+["currency","สกุลเงิน","Rupees are the currency used throughout Hyrule.",1],
+["potion","ยาวิเศษ","A red potion fully restores Link's health."],
+["bottle","ขวด","Keep a fairy in a bottle in case you run out of hearts."],
+["equip","สวมใส่ (อุปกรณ์)","Equip the Iron Boots to walk along the bottom of the lake.",1],
+["upgrade","อัปเกรด / ยกระดับ","A Great Fairy upgrades Link's magic power.",1],
+["reward","รางวัล","You receive a reward for collecting Gold Skulltula tokens.",1],
+["ranch","ฟาร์มปศุสัตว์","Malon lives at Lon Lon Ranch and takes care of the horses."],
+["escape","หลบหนี","Zelda escapes from the castle on a white horse."],
+["betray","ทรยศ","Ganondorf betrays the King of Hyrule to steal the Triforce."],
+["awaken","ตื่นขึ้น / ปลุก","After seven years of sleep, Link awakens as an adult."],
+["spirit","วิญญาณ / จิตวิญญาณ","The Spirit Temple is hidden deep in the desert."],
+["desert","ทะเลทราย","Crossing the desert is hard because of the strong sandstorm."],
+["shadow","เงา","The Shadow Temple lies beneath the graveyard in Kakariko Village."],
+["compass","เข็มทิศ","Use the compass to find every treasure chest in a dungeon."],
+["treasure","สมบัติ","That small chest contains a rare treasure."],
+["hidden","ซ่อนอยู่","Many hidden items are waiting behind cracked walls."],
+["explore","สำรวจ","Link explores Hyrule Field on his horse, Epona."],
+["journey","การเดินทาง","Link's journey begins in the peaceful Kokiri Forest."],
+["fairy","ภูต / นางฟ้า","Navi is a fairy who follows Link everywhere."],
+["quest","ภารกิจ","Link's quest is to stop Ganondorf before it is too late."],
+["ruins","ซากปรักหักพัง","Seven years later, Castle Town lies in ruins."],
+["monster","สัตว์ประหลาด","Skeleton monsters appear in Hyrule Field at night."],
+["instrument","เครื่องดนตรี","The ocarina is a small musical instrument."],
+["melody","ทำนองเพลง","Playing the right melody can change day into night."],
+["permission","การอนุญาต","Zelda's letter gives Link permission to climb Death Mountain.",1],
+["entrance","ทางเข้า","The entrance to the Water Temple is at the bottom of Lake Hylia.",1],
+["assist","ช่วยเหลือ","Navi assists Link by giving him useful hints during battles.",1]
+ ]}
+};
+const SOON=["Pokémon","Final Fantasy","Minecraft"];
+
+/* ===== GRAMMAR ACADEMY ===== */
+const UNITS=[
+ {id:"u1",name:"Unit 1 · พื้นฐานภาษาอังกฤษ",lessons:["structure","wordform","noun","article","pronoun"]},
+ {id:"u2",name:"Unit 2 · Tense (กาล)",lessons:["present","past","perfect","future"]},
+ {id:"u3",name:"Unit 3 · โครงสร้างสำคัญ",lessons:["agreement","passive","gerund","compare"]},
+ {id:"u4",name:"Unit 4 · เชื่อมประโยค & คำถาม",lessons:["prep","conj","relative","condition","question"]}
+];
+const LESSONS={
+structure:{e:"🧱",t:"โครงสร้างประโยค",s:"S + V + O และตำแหน่งของคำ",
+c:`<h4>ประโยคพื้นฐาน</h4>
+<p>ประโยคภาษาอังกฤษต้องมี <b>ประธาน (S)</b> และ <b>กริยา (V)</b> เสมอ แล้วอาจมี <b>กรรม (O)</b> หรือ <b>ส่วนเติมเต็ม (C)</b> ตามมา</p>
+<div class="eg"><b>S + V</b> → The store / opens.<br><b>S + V + O</b> → The manager / signed / the contract.<br><b>S + V + C</b> → Ms. Lee / is / busy.<br><b>S + V + O + O</b> → She / sent / me / an email.</div>
+<h4>กฎทอง: 1 ประโยค = กริยาแท้ 1 ตัว</h4>
+<p>ถ้าอยากใส่สองใจความ ต้องมีคำเชื่อม (and, but, because…) ไม่อย่างนั้นจะผิด</p>
+<div class="eg">❌ The report is ready, I sent it.<br>✅ The report is ready, <b>and</b> I sent it.</div>
+<h4>ตำแหน่งของคำ</h4>
+<table><tr><th>ชนิดคำ</th><th>อยู่ตรงไหน</th></tr>
+<tr><td>Noun (นาม)</td><td>ประธาน, กรรม, หลัง a/the/my</td></tr>
+<tr><td>Verb (กริยา)</td><td>หลังประธาน</td></tr>
+<tr><td>Adjective</td><td>หน้านาม หรือหลัง be</td></tr>
+<tr><td>Adverb</td><td>ขยายกริยา, adjective หรือทั้งประโยค</td></tr></table>
+<div class="tip">💡 TOEIC Part 5 ส่วนใหญ่ถามว่า "ช่องว่างต้องเป็นคำชนิดไหน" ให้ดูคำรอบ ๆ ช่องว่างก่อนแปลความหมาย จะทำได้เร็วขึ้นมาก</div>`,
+q:[
+["The new manager ___ the contract yesterday.",["signed","signing","signature","to sign"],0,"ประโยคยังไม่มีกริยาแท้ จึงต้องใช้กริยาในอดีต signed"],
+["Our customers ___ satisfied with the service.",["are","being","to be","been"],0,"ต้องมีกริยาแท้หลังประธาน → are (S + V + C)"],
+["The meeting ___ at 10 a.m. every Monday.",["starts","starting","to start","start"],0,"ประธาน the meeting เป็นเอกพจน์ ใช้ starts"],
+["Ms. Kato is a ___ accountant.",["careful","carefully","care","carefulness"],0,"หน้าคำนาม accountant ต้องเป็น adjective"],
+["Please read the instructions ___.",["carefully","careful","care","cared"],0,"ขยายกริยา read ต้องเป็น adverb"],
+["Mr. Brown ___ in the sales department.",["works","working","to work","worker"],0,"ต้องมีกริยาแท้ และประธานเอกพจน์ → works"],
+["Which sentence is correct?",["The report is ready.","The report ready.","The report being ready.","Ready the report is."],0,"ประโยคต้องมีกริยาแท้ (is) และเรียงเป็น S + V + C"],
+["The team ___ the project on time.",["completed","completion","complete to","completing"],0,"ประโยคต้องมีกริยาแท้ → completed"]
+]},
+wordform:{e:"🔤",t:"ชนิดคำ & รูปแบบคำ",s:"Noun / Verb / Adj / Adv และคำลงท้าย",
+c:`<h4>คำในตระกูลเดียวกันเปลี่ยนรูปตามหน้าที่</h4>
+<div class="eg">decide (v.) → decision (n.) → decisive (adj.) → decisively (adv.)<br>succeed (v.) → success (n.) → successful (adj.) → successfully (adv.)</div>
+<h4>สังเกตจากคำลงท้าย (Suffix)</h4>
+<table><tr><th>ชนิด</th><th>คำลงท้าย</th></tr>
+<tr><td>Noun</td><td>-tion, -ment, -ness, -ity, -ance/-ence<br>คน: -er, -or, -ant, -ist</td></tr>
+<tr><td>Verb</td><td>-ize, -ify, -en, -ate</td></tr>
+<tr><td>Adjective</td><td>-ful, -less, -ous, -ive, -able/-ible, -al, -ic</td></tr>
+<tr><td>Adverb</td><td>adj + -ly (quick → quickly)</td></tr></table>
+<h4>สูตรตำแหน่งที่เจอบ่อยใน TOEIC</h4>
+<div class="eg">a / the / my + (adj) + <b>N</b> → a <b>successful</b> <b>launch</b><br>be + <b>adj</b> → The workshop was <b>informative</b>.<br>V + <b>adv</b> → Sales grew <b>rapidly</b>.<br><b>adv</b> + adj → <b>highly</b> skilled</div>
+<div class="tip">💡 ระวัง: friendly, costly, lovely, timely ลงท้าย -ly แต่เป็น <b>adjective</b> ไม่ใช่ adverb</div>`,
+q:[
+["We need to make a ___ by Friday.",["decision","decide","decisive","decisively"],0,"หลัง a ต้องเป็นคำนาม → decision"],
+["The workshop was very ___.",["informative","inform","information","informatively"],0,"หลัง be (+very) ต้องเป็น adjective"],
+["Sales increased ___ last quarter.",["dramatically","dramatic","drama","dramatize"],0,"ขยายกริยา increased → adverb"],
+["The ___ of the new branch was delayed.",["construction","construct","constructive","constructed"],0,"หลัง the และหน้า of ต้องเป็นคำนาม"],
+["Mr. Patel is a highly ___ engineer.",["skilled","skill","skillfully","skills"],0,"adv (highly) + adj + noun → skilled"],
+["The staff were ___ friendly to the visitors.",["extremely","extreme","extremity","extremes"],0,"ขยาย adjective friendly ต้องเป็น adverb"],
+["Please ___ the files before the audit.",["organize","organization","organizational","organizer"],0,"Please + กริยาช่อง 1 → organize"],
+["Her presentation was ___ to everyone.",["helpful","help","helpfully","helper"],0,"หลัง be ต้องเป็น adjective → helpful"],
+["The ___ for the position must have a degree.",["applicant","apply","applicable","applied"],0,"หลัง the ต้องเป็นคำนาม และหมายถึงคน → applicant"]
+]},
+noun:{e:"📦",t:"คำนาม: เอกพจน์ / พหูพจน์",s:"นับได้ นับไม่ได้ และคำบอกปริมาณ",
+c:`<h4>การทำเป็นพหูพจน์</h4>
+<table><tr><th>กฎ</th><th>ตัวอย่าง</th></tr>
+<tr><td>ทั่วไป + s</td><td>book → books</td></tr>
+<tr><td>s, sh, ch, x, o + es</td><td>box → boxes, watch → watches</td></tr>
+<tr><td>พยัญชนะ + y → ies</td><td>company → companies</td></tr>
+<tr><td>สระ + y → + s</td><td>day → days</td></tr>
+<tr><td>f / fe → ves</td><td>shelf → shelves, knife → knives</td></tr></table>
+<p><b>รูปพิเศษ:</b> man → men, woman → women, child → children, person → people, foot → feet, tooth → teeth<br><b>รูปเดิม:</b> sheep, fish, series</p>
+<h4>คำนามนับไม่ได้ (ออกสอบบ่อยมาก)</h4>
+<div class="eg">information, advice, equipment, furniture, luggage, feedback, research, money, news, machinery, merchandise</div>
+<p>ไม่ใส่ a/an, ไม่เติม s และใช้กริยาเอกพจน์ ถ้าจะนับให้ใช้ <b>a piece of</b> advice หรือ <b>an item of</b> equipment</p>
+<h4>คำบอกปริมาณ</h4>
+<table><tr><th>นับได้ (พหูพจน์)</th><th>นับไม่ได้</th></tr>
+<tr><td>many, few, a few, several, a number of</td><td>much, little, a little, an amount of</td></tr>
+<tr><td colspan="2" style="text-align:center">ใช้ได้ทั้งคู่: some, any, a lot of, plenty of, most</td></tr></table>
+<div class="tip">💡 a few / a little = มีอยู่บ้าง (เชิงบวก) · few / little = แทบไม่มี (เชิงลบ)</div>`,
+q:[
+["We received a lot of useful ___ from customers.",["feedback","feedbacks","a feedback","the feedbacks"],0,"feedback เป็นนามนับไม่ได้ ไม่เติม s"],
+["There are three ___ in the new building.",["libraries","librarys","library","libraryes"],0,"พยัญชนะ + y → ies"],
+["How ___ money do we have left in the budget?",["much","many","few","several"],0,"money นับไม่ได้ → much"],
+["Several ___ attended the seminar.",["people","person","peoples","a person"],0,"several + นามพหูพจน์ → people (พหูพจน์ของ person)"],
+["The office needs new ___.",["furniture","furnitures","a furniture","furniture pieces of"],0,"furniture นับไม่ได้"],
+["Only a ___ employees know about the plan.",["few","little","much","less"],0,"employees นับได้ → a few"],
+["The ___ of applicants has increased this year.",["number","amount","much","deal"],0,"applicants นับได้ → the number of"],
+["All the ___ were sent to the Tokyo office.",["boxes","boxs","box","boxies"],0,"x + es → boxes"],
+["Could you give me some ___ about the interview?",["advice","advices","an advice","advise"],0,"advice (n.) นับไม่ได้ ส่วน advise เป็นกริยา"]
+]},
+article:{e:"🅰️",t:"a / an / the",s:"คำนำหน้านาม",
+c:`<h4>a / an ใช้กับนามนับได้เอกพจน์ที่ยังไม่เจาะจง</h4>
+<p>ดูที่ <b>เสียง</b> ไม่ใช่ตัวอักษร</p>
+<div class="eg"><b>a</b> + เสียงพยัญชนะ → a book, a <b>u</b>niversity (ยู), a <b>o</b>ne-way ticket<br><b>an</b> + เสียงสระ → an email, an <b>h</b>our (h ไม่ออกเสียง), an MBA</div>
+<h4>the ใช้กับสิ่งที่เจาะจง</h4>
+<div class="eg">• รู้กันอยู่แล้ว: Please close <b>the</b> door.<br>• มีหนึ่งเดียว: <b>the</b> sun, <b>the</b> internet<br>• ขั้นสุด/ลำดับ: <b>the</b> best, <b>the</b> first, <b>the</b> second floor<br>• ชื่อที่เป็นพหูพจน์หรือทะเล/แม่น้ำ: <b>the</b> Philippines, <b>the</b> Pacific</div>
+<h4>ไม่ใส่ article</h4>
+<div class="eg">• นามพหูพจน์ทั่วไป: Computers are useful.<br>• นามนับไม่ได้ทั่วไป: Information is important.<br>• ชื่อเมือง ประเทศ บริษัท: Bangkok, Japan, Samsung</div>
+<div class="tip">💡 นามนับได้เอกพจน์ห้ามอยู่ลอย ๆ ต้องมี a/an/the/my/this อย่างใดอย่างหนึ่งนำหน้า</div>`,
+q:[
+["She works as ___ engineer.",["an","a","the","much"],0,"engineer ขึ้นต้นด้วยเสียงสระ → an"],
+["It took ___ hour to finish the report.",["an","a","many","few"],0,"hour ไม่ออกเสียง h → an"],
+["This is ___ best hotel in the city.",["the","a","an","much"],0,"ขั้นสุด (best) ใช้ the"],
+["Mr. Ross graduated from ___ university in London.",["a","an","much","many"],0,"university ออกเสียง 'ยู' ซึ่งเป็นเสียงพยัญชนะ → a"],
+["___ sun rises in the east.",["The","A","An","Some"],0,"สิ่งที่มีหนึ่งเดียว → the"],
+["Ms. Diaz received ___ email from the client.",["an","a","much","many"],0,"email ขึ้นต้นด้วยเสียงสระ → an"],
+["Please take the documents to ___ second floor.",["the","a","an","some"],0,"ลำดับที่ (second) ใช้ the"],
+["___ information on the website is out of date.",["The","An","A","Many"],0,"information นับไม่ได้ ใส่ a/an ไม่ได้ ข้อมูลนี้เจาะจงจึงใช้ the"]
+]},
+pronoun:{e:"👤",t:"สรรพนาม",s:"I / me / my / mine / myself",
+c:`<h4>ตารางสรรพนาม</h4>
+<table class="small"><tr><th>ประธาน</th><th>กรรม</th><th>+ นาม</th><th>ยืนเดี่ยว</th><th>ตัวเอง</th></tr>
+<tr><td>I</td><td>me</td><td>my</td><td>mine</td><td>myself</td></tr>
+<tr><td>you</td><td>you</td><td>your</td><td>yours</td><td>yourself</td></tr>
+<tr><td>he</td><td>him</td><td>his</td><td>his</td><td>himself</td></tr>
+<tr><td>she</td><td>her</td><td>her</td><td>hers</td><td>herself</td></tr>
+<tr><td>it</td><td>it</td><td>its</td><td>–</td><td>itself</td></tr>
+<tr><td>we</td><td>us</td><td>our</td><td>ours</td><td>ourselves</td></tr>
+<tr><td>they</td><td>them</td><td>their</td><td>theirs</td><td>themselves</td></tr></table>
+<h4>วิธีเลือก</h4>
+<div class="eg">• หน้ากริยา → <b>ประธาน</b>: <b>We</b> agreed.<br>• หลังกริยา/บุพบท → <b>กรรม</b>: Call <b>me</b>. / between you and <b>me</b><br>• หน้าคำนาม → <b>my/our…</b>: <b>our</b> new office<br>• ไม่มีคำนามตามหลัง → <b>mine/ours…</b>: This desk is <b>mine</b>.<br>• ทำกับตัวเอง หรือ by + -self (ด้วยตัวเอง): She did it <b>by herself</b>.</div>
+<div class="tip">💡 <b>its</b> = ของมัน · <b>it's</b> = it is ข้อนี้ TOEIC ชอบหลอก</div>`,
+q:[
+["Please send the report to ___ by noon.",["me","I","my","mine"],0,"หลังบุพบท to ใช้รูปกรรม → me"],
+["Ms. Wong prepared the slides by ___.",["herself","her","she","hers"],0,"by + -self = ด้วยตัวเอง"],
+["The company announced ___ new logo.",["its","it's","it","their's"],0,"หน้าคำนาม logo ใช้ its (ของมัน)"],
+["This desk is ___, not yours.",["mine","my","me","I"],0,"ไม่มีคำนามตามหลัง → mine"],
+["Mr. and Mrs. Hill sold ___ house last year.",["their","them","they","theirs"],0,"หน้าคำนาม house → their"],
+["___ will discuss the budget at the meeting.",["We","Us","Our","Ours"],0,"หน้ากริยาต้องเป็นประธาน → We"],
+["Between you and ___, the plan is not ready.",["me","I","my","myself"],0,"หลังบุพบท between ใช้รูปกรรม → me"],
+["The employees introduced ___ to the new manager.",["themselves","them","their","theirs"],0,"ประธานกับกรรมเป็นคนกลุ่มเดียวกัน → themselves"]
+]},
+present:{e:"⏱️",t:"Present Simple & Continuous",s:"ปัจจุบันธรรมดา / กำลังทำ",
+c:`<h4>Present Simple: S + V1 (he/she/it + s/es)</h4>
+<p>ใช้กับความจริง นิสัย สิ่งที่ทำเป็นประจำ และตารางเวลา</p>
+<div class="eg">Ms. Lim usually <b>takes</b> the train.<br>The store <b>opens</b> at 9 a.m.<br>Water <b>boils</b> at 100°C.<br>ปฏิเสธ: He <b>does not</b> work on Sundays.</div>
+<p><b>คำบอกเวลา:</b> always, usually, often, sometimes, every day, on Mondays</p>
+<h4>Present Continuous: am/is/are + V-ing</h4>
+<p>ใช้กับสิ่งที่กำลังทำอยู่ตอนนี้ เรื่องชั่วคราวช่วงนี้ หรือแผนอนาคตที่นัดไว้แล้ว</p>
+<div class="eg">The director <b>is taking</b> a call right now.<br>We <b>are hiring</b> new staff this month.<br>I <b>am meeting</b> the client tomorrow.</div>
+<p><b>คำบอกเวลา:</b> now, right now, at the moment, currently, this week</p>
+<div class="tip">💡 กริยาบอกสภาพไม่ใช้ -ing เช่น know, believe, need, want, belong, own, prefer, understand<br>❌ I am knowing → ✅ I know</div>`,
+q:[
+["Ms. Lim usually ___ to work by train.",["goes","go","is going","going"],0,"usually = ทำเป็นประจำ ใช้ Present Simple และประธานเอกพจน์ → goes"],
+["Please be quiet. The director ___ a call right now.",["is taking","takes","take","taken"],0,"right now = กำลังทำ → is taking"],
+["The store ___ at 9 a.m. every day.",["opens","is opening","open","opening"],0,"ตารางเวลาประจำ → opens"],
+["We are currently ___ a new office manager.",["seeking","seek","sought","seeks"],0,"are + V-ing (Present Continuous)"],
+["This laptop ___ to the IT department.",["belongs","is belonging","belong","belonging"],0,"belong เป็นกริยาบอกสภาพ ไม่ใช้ -ing"],
+["Mr. Garcia ___ not work on weekends.",["does","do","is","has"],0,"ประธานเอกพจน์ ปฏิเสธด้วย does not + V1"],
+["The team ___ on the report at the moment.",["is working","works","work","worked"],0,"at the moment = กำลังทำ"],
+["Water ___ at 100 degrees Celsius.",["boils","is boiling","boil","boiled"],0,"ความจริงทางธรรมชาติ → Present Simple"]
+]},
+past:{e:"⏪",t:"Past Simple & Continuous",s:"อดีตธรรมดา / กำลังทำในอดีต",
+c:`<h4>Past Simple: S + V2</h4>
+<p>ใช้กับเหตุการณ์ที่เกิดและจบไปแล้วในอดีต</p>
+<div class="eg">We <b>launched</b> the product last month.<br>กริยาไม่ปกติ: go → <b>went</b>, buy → <b>bought</b>, send → <b>sent</b>, meet → <b>met</b>, rise → <b>rose</b><br>ปฏิเสธ/คำถาม: did not + V1 / <b>Did</b> you call him?</div>
+<p><b>คำบอกเวลา:</b> yesterday, last week, two days ago, in 2020</p>
+<h4>Past Continuous: was/were + V-ing</h4>
+<p>ใช้กับสิ่งที่กำลังทำอยู่ ณ จุดหนึ่งในอดีต มักคู่กับเหตุการณ์ที่แทรกเข้ามา</p>
+<div class="eg">I <b>was writing</b> a report <b>when</b> the power <b>went</b> out.<br><b>While</b> she <b>was having</b> lunch, her phone <b>rang</b>.</div>
+<div class="tip">💡 เหตุการณ์ยาวที่กำลังทำใช้ was/were + V-ing ส่วนเหตุการณ์สั้นที่แทรกเข้ามาใช้ V2</div>`,
+q:[
+["The company ___ its new product last month.",["launched","launches","has launched","launching"],0,"last month → Past Simple"],
+["We ___ the client two days ago.",["met","meet","have met","meeting"],0,"ago → Past Simple (meet → met)"],
+["I ___ a report when the power went out.",["was writing","wrote","am writing","write"],0,"เหตุการณ์ที่กำลังทำแล้วมีอะไรแทรก → was writing"],
+["Mr. Kim did not ___ the meeting yesterday.",["attend","attended","attends","attending"],0,"did not + V1"],
+["While she ___ lunch, her phone rang.",["was having","has","have","is having"],0,"while + Past Continuous"],
+["They ___ the office in 2019.",["opened","have opened","open","opening"],0,"in 2019 (ปีในอดีต) → Past Simple"],
+["Last year, sales ___ by 15 percent.",["rose","rise","risen","rising"],0,"rise → rose (V2)"],
+["What ___ you doing at 8 p.m. last night?",["were","did","was","are"],0,"you + were + V-ing (Past Continuous)"]
+]},
+perfect:{e:"✅",t:"Perfect Tenses",s:"has/have + V3 · had + V3",
+c:`<h4>Present Perfect: has/have + V3</h4>
+<p>ใช้กับเรื่องที่เริ่มในอดีตแล้วต่อเนื่องถึงตอนนี้ ประสบการณ์ หรือสิ่งที่เพิ่งเสร็จ</p>
+<div class="eg">She <b>has worked</b> here <b>since</b> 2018.<br>We <b>have already paid</b> the invoice.<br><b>Have</b> you <b>ever been</b> to Japan?</div>
+<p><b>คำบอกเวลา:</b> since, for, already, yet, just, ever, never, recently, so far</p>
+<div class="tip">💡 ห้ามใช้ Present Perfect กับเวลาที่จบไปแล้ว เช่น yesterday, ago, last year → ต้องใช้ Past Simple</div>
+<h4>Present Perfect Continuous: has/have been + V-ing</h4>
+<div class="eg">They <b>have been waiting</b> for an hour. (เน้นว่ารอต่อเนื่องมานาน)</div>
+<h4>Past Perfect: had + V3</h4>
+<p>ใช้กับเหตุการณ์ที่เกิดก่อนอีกเหตุการณ์หนึ่งในอดีต</p>
+<div class="eg"><b>By the time</b> we arrived, the meeting <b>had started</b>.<br>She <b>had finished</b> the report <b>before</b> the manager asked.</div>`,
+q:[
+["Ms. Tan ___ here since 2018.",["has worked","works","worked","is working"],0,"since + จุดเริ่มต้น → Present Perfect"],
+["We have already ___ the invoice.",["paid","pay","paying","pays"],0,"have + V3 (pay → paid)"],
+["Have you ___ been to the Singapore branch?",["ever","yet","since","ago"],0,"Have you ever…? = เคย…ไหม"],
+["By the time we arrived, the meeting ___.",["had started","has started","starts","will start"],0,"เกิดก่อนอีกเหตุการณ์ในอดีต → Past Perfect"],
+["The company ___ three new stores so far this year.",["has opened","opens","had opened","opening"],0,"so far = จนถึงตอนนี้ → Present Perfect"],
+["I haven't received the package ___.",["yet","already","ever","since"],0,"ประโยคปฏิเสธใช้ yet ไว้ท้ายประโยค"],
+["They ___ been waiting for an hour.",["have","has","are","had been"],0,"They + have been + V-ing"],
+["She ___ the report before her manager asked for it.",["had finished","has finished","finishes","will finish"],0,"เสร็จก่อนเหตุการณ์ในอดีต (asked) → had finished"]
+]},
+future:{e:"⏩",t:"Future Tenses",s:"will / be going to / will have V3",
+c:`<h4>will + V1</h4>
+<p>ใช้กับการตัดสินใจตอนพูด การคาดการณ์ คำสัญญา และแผนทางการ</p>
+<div class="eg">I<b>'ll help</b> you with the boxes.<br>The policy <b>will take</b> effect next month.</div>
+<h4>be going to + V1</h4>
+<p>ใช้กับแผนที่ตั้งใจไว้แล้ว หรือสิ่งที่มีหลักฐานให้เห็นว่าจะเกิด</p>
+<div class="eg">We <b>are going to</b> open a new branch.<br>Look at the clouds. It<b>'s going to</b> rain.</div>
+<h4>Future Continuous / Future Perfect</h4>
+<div class="eg">This time tomorrow, I <b>will be flying</b> to Bangkok. (กำลังทำ ณ เวลาหนึ่งในอนาคต)<br><b>By</b> next June, we <b>will have completed</b> the project. (จะเสร็จก่อนเวลาหนึ่งในอนาคต)</div>
+<div class="tip">💡 หลัง when, as soon as, before, after, until, if <b>ห้ามใช้ will</b> ให้ใช้ Present Simple แทน<br>✅ I'll call you <b>as soon as</b> I <b>get</b> the results.</div>`,
+q:[
+["The new policy ___ effect next month.",["will take","took","has taken","taking"],0,"next month → อนาคต"],
+["Look at those clouds. It ___ rain.",["is going to","was going to","has","did"],0,"มีหลักฐานให้เห็น → be going to"],
+["By next June, we ___ the project.",["will have completed","completed","have completed","complete"],0,"by + เวลาในอนาคต → Future Perfect"],
+["I will call you as soon as I ___ the results.",["get","will get","got","getting"],0,"หลัง as soon as ใช้ Present Simple แทน will"],
+["This time tomorrow, I ___ to Bangkok.",["will be flying","fly","flew","have flown"],0,"กำลังทำ ณ เวลาหนึ่งในอนาคต → will be + V-ing"],
+["Don't worry. I ___ help you with the boxes.",["will","am","have","did"],0,"ตัดสินใจตอนพูด → will"],
+["Please wait here until the manager ___.",["arrives","will arrive","arrived","arriving"],0,"หลัง until ใช้ Present Simple"],
+["The conference ___ in Seoul next year.",["will be held","held","is holding","holds"],0,"งานถูกจัด (passive) ในอนาคต → will be held"]
+]},
+agreement:{e:"🤝",t:"Subject–Verb Agreement",s:"ประธานกับกริยาต้องสอดคล้องกัน",
+c:`<h4>หลักการ</h4>
+<p>ประธานเอกพจน์ใช้กริยาเอกพจน์ (is, has, works) ประธานพหูพจน์ใช้กริยาพหูพจน์ (are, have, work)</p>
+<h4>จุดที่ TOEIC ชอบหลอก</h4>
+<table><tr><th>รูปแบบ</th><th>กริยา</th></tr>
+<tr><td>each / every / everyone + N</td><td>เอกพจน์</td></tr>
+<tr><td>one of the + N พหูพจน์</td><td>เอกพจน์</td></tr>
+<tr><td>the number of + N</td><td>เอกพจน์</td></tr>
+<tr><td>a number of + N</td><td>พหูพจน์</td></tr>
+<tr><td>นามนับไม่ได้ (equipment, information)</td><td>เอกพจน์</td></tr>
+<tr><td>A and B</td><td>พหูพจน์</td></tr>
+<tr><td>either/neither A or/nor B</td><td>ตาม B (ตัวที่อยู่ใกล้กริยา)</td></tr></table>
+<h4>ประธานยาวมีคำมาคั่น</h4>
+<div class="eg">The <b>list</b> of participants <b>is</b> online. (ดูที่ list ไม่ใช่ participants)<br>There <b>are</b> several options. (กริยาผันตามนามที่อยู่หลัง there)</div>
+<div class="tip">💡 เจอ of, with หรือ in หลังประธาน ให้ตัดวลีนั้นทิ้งไปก่อน แล้วดูว่าประธานจริงคือคำไหน</div>`,
+q:[
+["Every employee ___ a parking card.",["has","have","are having","were"],0,"every + เอกพจน์ → has"],
+["One of the printers ___ not working.",["is","are","were","be"],0,"one of … → ประธานคือ one (เอกพจน์)"],
+["A number of customers ___ complained.",["have","has","is","was"],0,"a number of = หลาย → พหูพจน์"],
+["The list of participants ___ on the website.",["is","are","were","be"],0,"ประธานจริงคือ the list (เอกพจน์)"],
+["There ___ several options for the event.",["are","is","was","has"],0,"กริยาผันตาม options (พหูพจน์)"],
+["Either the manager or the assistants ___ the keys.",["have","has","is having","was"],0,"either…or… ผันตามตัวที่ใกล้ (assistants)"],
+["The equipment ___ checked every month.",["is","are","were","have"],0,"equipment นับไม่ได้ → เอกพจน์"],
+["Mr. Ford and his team ___ in Osaka now.",["are","is","was","has"],0,"A and B → พหูพจน์"]
+]},
+passive:{e:"🔄",t:"Passive Voice",s:"ประโยคถูกกระทำ: be + V3",
+c:`<h4>เมื่อไหร่ใช้ Passive</h4>
+<p>ใช้เมื่อต้องการเน้นสิ่งที่ถูกกระทำ หรือไม่รู้/ไม่สำคัญว่าใครเป็นคนทำ</p>
+<div class="eg">Active: The factory <b>makes</b> the products.<br>Passive: The products <b>are made</b> (by the factory).</div>
+<h4>สูตร: be + V3 (ผัน be ตาม tense)</h4>
+<table><tr><th>Tense</th><th>Passive</th></tr>
+<tr><td>Present</td><td>is / are made</td></tr>
+<tr><td>Past</td><td>was / were made</td></tr>
+<tr><td>Perfect</td><td>has / have been made</td></tr>
+<tr><td>Continuous</td><td>is being made</td></tr>
+<tr><td>Future</td><td>will be made</td></tr>
+<tr><td>Modal</td><td>must / can / should be made</td></tr></table>
+<div class="tip">💡 ถ้าประธานเป็นสิ่งของที่ทำเองไม่ได้ (report, order, product) และหลังช่องว่างไม่มีกรรม มักจะเป็น Passive<br>สำนวนที่เจอบ่อย: be required to, be expected to, be located in</div>`,
+q:[
+["The products ___ in Vietnam.",["are made","make","are making","made by"],0,"สินค้าถูกผลิต → are made"],
+["The report ___ by Ms. Lee yesterday.",["was written","wrote","has written","writes"],0,"ถูกเขียน (มี by) ในอดีต → was written"],
+["All orders must ___ by Friday.",["be shipped","ship","shipping","shipped"],0,"modal + be + V3"],
+["The winners ___ next week.",["will be announced","will announce","announce","announcing"],0,"ผู้ชนะถูกประกาศ → will be announced"],
+["The meeting room is ___ cleaned right now.",["being","been","be","to be"],0,"is being + V3 = กำลังถูก…"],
+["Several changes ___ made to the schedule since Monday.",["have been","has been","were being","are"],0,"since → Perfect และ changes เป็นพหูพจน์ → have been"],
+["The package was delivered ___ a courier.",["by","from","with","of"],0,"ผู้กระทำใน passive ใช้ by"],
+["Employees ___ to wear ID badges.",["are required","require","requiring","are requiring"],0,"be required to = ถูกกำหนดให้ต้อง"]
+]},
+gerund:{e:"🎯",t:"Gerund & Infinitive",s:"V-ing หรือ to + V1",
+c:`<h4>กริยาที่ตามด้วย V-ing</h4>
+<div class="eg">enjoy, avoid, finish, consider, suggest, recommend, mind, keep, postpone, deny, practice</div>
+<h4>กริยาที่ตามด้วย to + V1</h4>
+<div class="eg">want, plan, decide, hope, agree, offer, refuse, expect, need, afford, promise, aim</div>
+<h4>V-ing หลังบุพบท (สำคัญมาก)</h4>
+<div class="eg">Thank you <b>for</b> complet<b>ing</b>…<br>look forward <b>to</b> hear<b>ing</b> · be used <b>to</b> work<b>ing</b> · <b>before</b> leav<b>ing</b></div>
+<h4>ความหมายเปลี่ยน</h4>
+<div class="eg"><b>remember to lock</b> = อย่าลืมล็อก (ยังไม่ได้ทำ)<br><b>remember locking</b> = จำได้ว่าล็อกไปแล้ว<br><b>stop to smoke</b> = หยุดเพื่อสูบ · <b>stop smoking</b> = เลิกสูบ</div>
+<div class="tip">💡 in order to / so as to + V1 = เพื่อที่จะ<br>be able to, be happy to, be likely to + V1</div>`,
+q:[
+["We are considering ___ a new branch.",["opening","to open","open","opened"],0,"consider + V-ing"],
+["The company decided ___ more staff.",["to hire","hiring","hire","hired"],0,"decide + to V1"],
+["I look forward to ___ from you.",["hearing","hear","heard","hears"],0,"look forward to + V-ing"],
+["Please remember ___ the door when you leave.",["to lock","locking","lock","locked"],0,"remember to = อย่าลืมทำ (ยังไม่ได้ทำ)"],
+["Mr. Hall avoided ___ the question.",["answering","to answer","answer","answered"],0,"avoid + V-ing"],
+["She is used to ___ long hours.",["working","work","worked","works"],0,"be used to + V-ing = เคยชินกับ"],
+["He came early in order ___ the room.",["to prepare","preparing","prepare","prepared"],0,"in order to + V1"],
+["Thank you for ___ the survey.",["completing","complete","to complete","completed"],0,"หลังบุพบท for ใช้ V-ing"]
+]},
+compare:{e:"⚖️",t:"การเปรียบเทียบ",s:"ขั้นกว่า / ขั้นสุด / as…as",
+c:`<h4>วิธีสร้าง</h4>
+<table><tr><th>คำ</th><th>ขั้นกว่า</th><th>ขั้นสุด</th></tr>
+<tr><td>สั้น: cheap</td><td>cheaper than</td><td>the cheapest</td></tr>
+<tr><td>ลงท้าย y: busy</td><td>busier</td><td>the busiest</td></tr>
+<tr><td>ยาว: expensive</td><td>more expensive</td><td>the most expensive</td></tr>
+<tr><td>good / well</td><td>better</td><td>the best</td></tr>
+<tr><td>bad / badly</td><td>worse</td><td>the worst</td></tr>
+<tr><td>many / much</td><td>more</td><td>the most</td></tr>
+<tr><td>little</td><td>less</td><td>the least</td></tr></table>
+<h4>รูปแบบอื่น</h4>
+<div class="eg">• เท่ากัน: as + adj + as → as <b>low</b> as<br>• ไม่เท่า: not as + adj + as<br>• ยิ่ง…ยิ่ง…: <b>The</b> earlier you start, <b>the</b> sooner you finish.</div>
+<div class="tip">💡 เน้นขั้นกว่าใช้ <b>much, far, even, a lot</b> + comparative (much better)<br>❌ very better</div>`,
+q:[
+["This model is ___ than the old one.",["cheaper","cheap","cheapest","more cheap"],0,"มี than → ขั้นกว่า และ cheap เป็นคำสั้น → cheaper"],
+["It was the ___ day of the year.",["busiest","busier","busy","most busy"],0,"the + ขั้นสุด (busy → busiest)"],
+["The new design is ___ better than before.",["much","very","most","more"],0,"much + ขั้นกว่า"],
+["Our prices are as ___ as our competitors'.",["low","lower","lowest","more low"],0,"as + adj รูปปกติ + as"],
+["This is the ___ expensive option.",["most","more","much","mostly"],0,"คำยาว: the most + adj"],
+["Sales this month were ___ than last month.",["worse","bad","worst","badly"],0,"bad → worse (ขั้นกว่า)"],
+["The ___ you start, the sooner you finish.",["earlier","early","earliest","more early"],0,"The + ขั้นกว่า…, the + ขั้นกว่า…"],
+["Ms. Ono is ___ experienced than her colleague.",["more","most","much","many"],0,"experienced เป็นคำยาว + than → more"]
+]},
+prep:{e:"📍",t:"Prepositions",s:"at / on / in / by / for / since",
+c:`<h4>บุพบทบอกเวลา</h4>
+<table><tr><th>คำ</th><th>ใช้กับ</th></tr>
+<tr><td><b>at</b></td><td>เวลา: at 9:30, at noon, at night</td></tr>
+<tr><td><b>on</b></td><td>วัน/วันที่: on Monday, on May 5</td></tr>
+<tr><td><b>in</b></td><td>เดือน ปี ฤดู: in July, in 2025, in the morning</td></tr>
+<tr><td><b>by</b></td><td>ภายใน (เส้นตาย): by Friday</td></tr>
+<tr><td><b>until</b></td><td>ต่อเนื่องจนถึง: open until 8 p.m.</td></tr>
+<tr><td><b>for / since</b></td><td>for + ระยะเวลา · since + จุดเริ่ม</td></tr>
+<tr><td><b>during / within</b></td><td>ในระหว่าง + N · ภายในช่วงเวลา</td></tr></table>
+<h4>บุพบทบอกสถานที่</h4>
+<div class="eg"><b>at</b> จุด: at the desk, at the airport<br><b>on</b> พื้นผิว/ชั้น: on the wall, on the 5th floor<br><b>in</b> ข้างใน/เมือง: in the room, in Bangkok</div>
+<h4>คำที่มาคู่กัน (ท่องไว้)</h4>
+<div class="eg">responsible <b>for</b> · interested <b>in</b> · depend <b>on</b> · apply <b>for</b> · in charge <b>of</b> · according <b>to</b> · due <b>to</b> · in addition <b>to</b> · familiar <b>with</b></div>`,
+q:[
+["The seminar starts ___ 9:30 a.m.",["at","on","in","by"],0,"เวลาที่ระบุชัดใช้ at"],
+["Our office is located ___ the fifth floor.",["on","in","at","to"],0,"ชั้นของอาคารใช้ on"],
+["The store will be closed ___ December.",["in","on","at","by"],0,"เดือนใช้ in"],
+["Please return the form ___ Friday.",["by","until","since","during"],0,"ส่งภายใน (เส้นตาย) → by"],
+["She is in charge ___ the marketing team.",["of","for","to","with"],0,"in charge of = รับผิดชอบดูแล"],
+["We have lived here ___ ten years.",["for","since","during","from"],0,"ระยะเวลา → for"],
+["Mr. Jones is interested ___ the position.",["in","on","at","for"],0,"interested in"],
+["The flight was cancelled ___ the storm.",["due to","because","although","so"],0,"due to + คำนาม"]
+]},
+conj:{e:"🔗",t:"คำเชื่อม",s:"Conjunction vs Preposition vs Transition",
+c:`<h4>ดูว่าหลังช่องว่างเป็นอะไร</h4>
+<table><tr><th>ตามด้วย</th><th>คำเชื่อม</th></tr>
+<tr><td>ประโยค (S+V)</td><td>because, although, even though, while, whereas, if, unless, when, until, as soon as, so that</td></tr>
+<tr><td>คำนาม / V-ing</td><td>because of, due to, despite, in spite of, during</td></tr></table>
+<div class="eg"><b>Although</b> it was raining, … (ประโยค)<br><b>Despite</b> the rain, … (คำนาม)</div>
+<h4>คำเชื่อมคู่</h4>
+<div class="eg">both A <b>and</b> B · either A <b>or</b> B · neither A <b>nor</b> B · not only A <b>but also</b> B · whether A <b>or</b> B</div>
+<h4>คำเชื่อมระหว่างประโยค (ตามด้วย comma)</h4>
+<div class="eg">However, (แต่) · Therefore, (ดังนั้น) · Moreover / In addition, (นอกจากนี้) · Otherwise, (มิฉะนั้น) · For example, (ตัวอย่างเช่น)</div>
+<div class="tip">💡 Prices rose. <b>However</b>, sales stayed strong. ✅<br>Prices rose, <b>however</b> sales stayed strong. ❌ (however เชื่อมสองประโยคด้วย comma อย่างเดียวไม่ได้)</div>`,
+q:[
+["___ it was raining, the event continued.",["Although","Despite","Because of","However"],0,"ตามด้วยประโยค และความหมายขัดแย้งกัน → Although"],
+["The store closed early ___ a power outage.",["because of","because","although","so that"],0,"ตามด้วยคำนาม → because of"],
+["You can pay ___ by cash or by credit card.",["either","neither","both","not only"],0,"either … or …"],
+["Prices increased. ___, sales remained strong.",["However","Although","Because","Despite"],0,"เชื่อมระหว่างประโยคด้วยความหมายขัดแย้ง → However,"],
+["Please arrive early ___ we can start on time.",["so that","because of","despite","in spite of"],0,"so that + ประโยค = เพื่อที่จะ"],
+["We will not ship the order ___ we receive payment.",["until","during","despite","due to"],0,"not … until = ไม่…จนกว่า"],
+["The plan is both cheap ___ effective.",["and","or","nor","but"],0,"both … and …"],
+["___ the delay, the project was completed on budget.",["Despite","Although","Even though","Because"],0,"ตามด้วยคำนาม (the delay) และความหมายขัดแย้งกัน → Despite"]
+]},
+relative:{e:"🪢",t:"Relative Clauses",s:"who / which / that / whose / where",
+c:`<h4>เลือกคำตามสิ่งที่ขยาย</h4>
+<table><tr><th>คำ</th><th>ใช้กับ</th></tr>
+<tr><td><b>who</b></td><td>คน (ทำหน้าที่ประธาน)</td></tr>
+<tr><td><b>whom</b></td><td>คน (ทำหน้าที่กรรม)</td></tr>
+<tr><td><b>which</b></td><td>สิ่งของ / สัตว์</td></tr>
+<tr><td><b>that</b></td><td>คนหรือสิ่งของ (ห้ามใช้หลัง comma)</td></tr>
+<tr><td><b>whose</b> + N</td><td>ความเป็นเจ้าของ</td></tr>
+<tr><td><b>where</b></td><td>สถานที่ + ประโยคสมบูรณ์</td></tr>
+<tr><td><b>when</b></td><td>เวลา</td></tr></table>
+<div class="eg">The woman <b>who</b> called you is my boss.<br>The laptop <b>that</b> I bought is broken.<br>Mr. Ito, <b>whose</b> car was stolen, called the police.<br>This is the hotel <b>where</b> we stayed.</div>
+<h4>ย่อ Relative Clause</h4>
+<div class="eg">Employees <b>who participate</b> → Employees <b>participating</b><br>The car <b>which was made</b> in Japan → The car <b>made</b> in Japan</div>`,
+q:[
+["The woman ___ called you is my manager.",["who","which","whose","where"],0,"ขยายคนที่เป็นประธานของ called → who"],
+["The laptop ___ I bought last week is broken.",["that","who","whose","where"],0,"ขยายสิ่งของ → that/which"],
+["Mr. Ito, ___ car was stolen, called the police.",["whose","who","which","whom"],0,"whose + คำนาม = ของเขา"],
+["This is the restaurant ___ we had our team dinner.",["where","which","who","when"],0,"สถานที่ + ประโยคสมบูรณ์ → where"],
+["The candidate ___ we interviewed yesterday was excellent.",["whom","whose","which","where"],0,"คนที่เป็นกรรมของ interviewed → whom"],
+["Our new app, ___ was launched in May, is very popular.",["which","that","who","where"],0,"หลัง comma ใช้ that ไม่ได้ และขยายสิ่งของ → which"],
+["I remember the day ___ the company was founded.",["when","where","which","who"],0,"ขยายคำบอกเวลา → when"],
+["Employees ___ in the program will receive a certificate.",["participating","participate","participates","to participating"],0,"ย่อจาก who participate → participating"]
+]},
+condition:{e:"🔀",t:"If-Clause (Conditionals)",s:"If แบบ 0 / 1 / 2 / 3",
+c:`<h4>4 แบบหลัก</h4>
+<table><tr><th>แบบ</th><th>โครงสร้าง</th><th>ใช้เมื่อ</th></tr>
+<tr><td>0</td><td>If + V1, V1</td><td>ความจริง</td></tr>
+<tr><td>1</td><td>If + V1, will + V1</td><td>เป็นไปได้จริง</td></tr>
+<tr><td>2</td><td>If + V2 (were), would + V1</td><td>สมมติ (ปัจจุบัน)</td></tr>
+<tr><td>3</td><td>If + had V3, would have V3</td><td>สมมติ (อดีต)</td></tr></table>
+<div class="eg">If you heat ice, it <b>melts</b>.<br>If it <b>rains</b> tomorrow, we <b>will cancel</b> the trip.<br>If I <b>were</b> you, I <b>would accept</b>.<br>If we <b>had left</b> earlier, we <b>would have caught</b> the train.</div>
+<h4>รูปพิเศษที่ TOEIC ชอบออก</h4>
+<div class="eg"><b>Unless</b> = if … not → Unless we hurry, we'll be late.<br><b>Should</b> you have questions, … = If you have questions, …<br><b>Had</b> I known, … = If I had known, …</div>`,
+q:[
+["If you heat ice, it ___.",["melts","will melted","melted","melting"],0,"ความจริง → If แบบ 0"],
+["If it rains tomorrow, we ___ the picnic.",["will cancel","would cancel","cancelled","had cancelled"],0,"เป็นไปได้จริง → If แบบ 1"],
+["If I ___ you, I would accept the offer.",["were","am","will be","had"],0,"สมมติ แบบ 2 ใช้ were กับทุกประธาน"],
+["If we had left earlier, we ___ the train.",["would have caught","will catch","caught","would catch"],0,"If แบบ 3 → would have + V3"],
+["___ you have any questions, please contact us.",["Should","Would","Had","Were"],0,"Should you… = If you…"],
+["We will miss the deadline ___ we work faster.",["unless","if","because","so"],0,"unless = ถ้าไม่"],
+["If she had more time, she ___ another language.",["would learn","will learn","learns","had learned"],0,"If + V2 → would + V1 (แบบ 2)"],
+["___ I known about the problem, I would have helped.",["Had","Have","If","Should"],0,"Had I known = If I had known"]
+]},
+question:{e:"❓",t:"ประโยคคำถาม",s:"Yes/No, Wh-, Tag, Indirect",
+c:`<h4>Yes/No Question: Aux + S + V?</h4>
+<div class="eg"><b>Do</b> you work here? · <b>Did</b> she call? · <b>Is</b> he ready? · <b>Have</b> they left? · <b>Can</b> you help?</div>
+<h4>Wh- Question: Wh + Aux + S + V?</h4>
+<div class="eg"><b>Where do</b> you work? · <b>When is</b> the meeting? · <b>How long have</b> you been here?<br>How much (นับไม่ได้/ราคา) · How many (นับได้) · How often (บ่อยแค่ไหน)</div>
+<p><b>ถามประธาน</b> ไม่ต้องใช้ do: <b>Who called</b> you? · <b>What happened</b>?</p>
+<h4>Tag Question</h4>
+<div class="eg">บอกเล่า → tag ปฏิเสธ: You work in sales, <b>don't you</b>?<br>ปฏิเสธ → tag บอกเล่า: She hasn't arrived, <b>has she</b>?</div>
+<h4>Indirect Question (ถามอ้อมแบบสุภาพ)</h4>
+<p>หลัง Could you tell me / Do you know ให้เรียงแบบประโยคบอกเล่า (S + V) และไม่ใช้ do</p>
+<div class="eg">Where is the station? → Could you tell me where <b>the station is</b>?<br>When does it leave? → Do you know when <b>it leaves</b>?</div>
+<div class="tip">💡 ประโยคคำถามช่วยใน TOEIC Listening Part 2 ด้วย ฟังคำ Wh- ตัวแรกให้ชัด แล้วจะเลือกคำตอบได้ถูก</div>`,
+q:[
+["___ you finish the report yesterday?",["Did","Do","Have","Were"],0,"yesterday → อดีต ใช้ Did + V1"],
+["Where ___ the meeting going to be held?",["is","does","do","has"],0,"be going to → is"],
+["Could you tell me where ___?",["the station is","is the station","does the station","the station does be"],0,"Indirect question เรียง S + V"],
+["You work in sales, ___?",["don't you","do you","aren't you","didn't you"],0,"บอกเล่า Present Simple → tag don't you"],
+["___ has the key to the storage room?",["Who","Whom","Whose","What"],0,"ถามประธานที่เป็นคน → Who"],
+["How ___ does the tour cost?",["much","many","long","often"],0,"ถามราคา → How much"],
+["She hasn't arrived yet, ___?",["has she","hasn't she","is she","does she"],0,"ประโยคปฏิเสธ → tag บอกเล่า has she"],
+["Do you know when the train ___?",["leaves","does leave","leave","is leave"],0,"Indirect question ไม่ใช้ do และประธานเอกพจน์ → leaves"],
+["___ have you been working here?",["How long","How much","How many","What time"],0,"ถามระยะเวลา → How long"]
+]}
+};
+
+/* ===== QUESTION GENERATORS ===== */
+const R=a=>a[Math.random()*a.length|0];
+function mk(q,ans,dis,ex){
+  const seen=new Set([ans]);const d=[];
+  for(const x of dis){if(x&&!seen.has(x)){seen.add(x);d.push(x)}if(d.length===3)break}
+  if(d.length<3)return null;
+  return [q,[ans,...d],0,ex];
+}
+const cap=s=>s[0].toUpperCase()+s.slice(1);
+// subjects: [text, number(s/p/i), pronoun for tags]
+const SUBJ=[["Ms. Tan","s","she"],["Mr. Kim","s","he"],["Our manager","s",null],["The new assistant","s",null],["The CEO","s",null],
+ ["Ms. Lopez","s","she"],["Mr. Ito","s","he"],["My colleague","s",null],["The director","s",null],
+ ["The engineers","p","they"],["Our clients","p","they"],["The interns","p","they"],["We","p","we"],["They","p","they"],
+ ["The sales representatives","p","they"],["I","i","I"],["You","p","you"]];
+const S1=()=>{const s=R(SUBJ);return{t:s[0],n:s[1],pr:s[2]}};
+const V=(b,s3,p,pp,ing,o)=>({b,s3,p,pp,ing,o});
+const VERBS=[
+V("review","reviews","reviewed","reviewed","reviewing",["the contract","the budget","the proposal"]),
+V("send","sends","sent","sent","sending",["the invoice","the files","the samples"]),
+V("prepare","prepares","prepared","prepared","preparing",["the slides","the report","the agenda"]),
+V("write","writes","wrote","written","writing",["the report","a proposal","the press release"]),
+V("check","checks","checked","checked","checking",["the inventory","the schedule","the figures"]),
+V("meet","meets","met","met","meeting",["the client","the new supplier","the investors"]),
+V("update","updates","updated","updated","updating",["the website","the price list","the database"]),
+V("organize","organizes","organized","organized","organizing",["the event","the files","the training session"]),
+V("buy","buys","bought","bought","buying",["new laptops","office supplies","the tickets"]),
+V("finish","finishes","finished","finished","finishing",["the project","the presentation","the audit"]),
+V("choose","chooses","chose","chosen","choosing",["a new supplier","the venue","the design"]),
+V("give","gives","gave","given","giving",["a presentation","a speech","a product demonstration"]),
+V("take","takes","took","taken","taking",["the training course","the minutes","the online test"]),
+V("sign","signs","signed","signed","signing",["the agreement","the contract","the documents"]),
+V("approve","approves","approved","approved","approving",["the budget","the request","the new design"]),
+V("analyze","analyzes","analyzed","analyzed","analyzing",["the survey results","the sales data","the costs"]),
+V("deliver","delivers","delivered","delivered","delivering",["the packages","the order","the goods"]),
+V("plan","plans","planned","planned","planning",["the conference","the product launch","the company trip"]),
+V("lead","leads","led","led","leading",["the meeting","the team","the workshop"]),
+V("pay","pays","paid","paid","paying",["the bill","the invoice","the fee"]),
+V("sell","sells","sold","sold","selling",["the old equipment","more products","the property"]),
+V("read","reads","read","read","reading",["the manual","the contract","the instructions"]),
+V("find","finds","found","found","finding",["a solution","the missing file","a new office"]),
+V("hire","hires","hired","hired","hiring",["two new designers","a consultant","more staff"]),
+V("test","tests","tested","tested","testing",["the new software","the system","the product"]),
+V("draw","draws","drew","drawn","drawing",["the floor plan","a chart","the designs"]),
+V("speak","speaks","spoke","spoken","speaking",["to the client","to the press","to the board"])
+];
+const VO=()=>{const v=R(VERBS);return{v,o:R(v.o)}};
+const low=t=>/^(We|They|You|The|Our|My)\b/.test(t)?t[0].toLowerCase()+t.slice(1):t;
+const pres=(v,S)=>S.n==="s"?v.s3:v.b;
+const be=S=>S.n==="s"?"is":S.n==="i"?"am":"are";
+const beW=S=>S.n==="p"?"were":"was";
+const wrongBeW=S=>S.n==="p"?"was":"were";
+const hv=S=>S.n==="s"?"has":"have";
+const wrongHv=S=>S.n==="s"?"have":"has";
+const dO=S=>S.n==="s"?"does":"do";
+const wrongPres=(v,S)=>S.n==="s"?v.b:v.s3;
+const wrongBe=S=>S.n==="s"?"are":"is";
+
+const GEN={
+structure(){
+  const S=S1(),{v,o}=VO();
+  return R([
+   ()=>mk(`${S.t} ___ ${o} yesterday.`,v.p,[v.ing,"to "+v.b,v.p===v.pp?"being "+v.pp:v.pp],"ประโยคต้องมีกริยาแท้ และ yesterday บอกอดีต → "+v.p),
+   ()=>mk(`${S.t} ___ ${o} every week.`,pres(v,S),[v.ing,"to "+v.b,"having "+v.pp],"ประโยคต้องมีกริยาแท้ในรูป Present Simple ที่ผันตามประธาน → "+pres(v,S)),
+   ()=>mk(`${S.t} ___ ${o} right now.`,be(S)+" "+v.ing,[v.ing,"to "+v.b,"being "+v.pp],"right now → กริยาแท้ "+be(S)+" + V-ing ห้ามมี V-ing ลอย ๆ โดยไม่มี be"),
+  ])();
+},
+noun(){
+  return R([
+   ()=>{const n=R(PL);const num=R(["two","three","four","five","six","several","many"]);
+     return mk(`We have ${num} ___ in total.`,n[1],[n[0],...n.slice(2)],`${num} ตามด้วยนามพหูพจน์ · ${n[0]} → ${n[1]}`+" ("+n[4]+")")},
+   ()=>{const u=Math.random()<.5;const n=u?R(UNC):R(CNT);
+     return mk(`How ___ ${n} do we need for the event?`,u?"much":"many",u?["many","few","several"]:["much","little","a little"],u?n+" นับไม่ได้ → much":n+" นับได้พหูพจน์ → many")},
+   ()=>{const u=Math.random()<.5;const n=u?R(UNC):R(CNT);
+     return mk(u?`There is only a ___ ${n} left.`:`There are only a ___ ${n} left.`,u?"little":"few",u?["few","many","several"]:["little","much","less"],u?"นามนับไม่ได้ใช้ a little":"นามนับได้พหูพจน์ใช้ a few")},
+   ()=>{const n=R(UNC);return mk(`We received a lot of useful ___ from the team.`,n,[n+"s","a "+n,"an "+n+"s"],n+" เป็นนามนับไม่ได้ ไม่เติม s และไม่มี a/an")},
+  ])();
+},
+article(){
+  return R([
+   ()=>{const x=R(ART);return mk(`This is ___ ${x[0]}.`,x[1],[x[1]==="a"?"an":"a","many","any"],x[2])},
+   ()=>{const x=R(SUP);return mk(`This is ___ ${x} in the city.`,"the",["a","an","much"],"ขั้นสุดต้องใช้ the")},
+   ()=>{const x=R(["second","third","fourth","fifth","top","first"]);return mk(`Please take the boxes to ___ ${x} floor.`,"the",["a","an","some"],"ลำดับที่หรือชั้นที่เจาะจงใช้ the")},
+  ])();
+},
+pronoun(){
+  const P=R(PRON);const fr=R(PRF);
+  const ans=P[fr.k];const opts=["s","o","p","r","m"].filter(k=>k!==fr.k).map(k=>P[k]);
+  return mk(fr.f.startsWith("{N}")?fr.f.replace("{N}",P.n):fr.f.replace("{N}",low(P.n)),ans,shuffleA(opts),fr.ex+" → "+ans);
+},
+present(){
+  const S=S1(),{v,o}=VO();
+  return R([
+   ()=>{const t=R(["usually","always","often","sometimes"]);return mk(`${S.t} ${t} ___ ${o}.`,pres(v,S),[wrongPres(v,S),be(S)+" "+v.ing,v.p],`${t} = ทำเป็นประจำ → Present Simple`+(S.n==="s"?" ประธานเอกพจน์เติม s/es":""))},
+   ()=>{const t=R(["every Monday","every week","twice a month","on Fridays"]);return mk(`${S.t} ___ ${o} ${t}.`,pres(v,S),[wrongPres(v,S),be(S)+" "+v.ing,v.ing],`${t} = เป็นประจำ → Present Simple ผันตามประธาน`)},
+   ()=>{const t=R(["right now","at the moment","now"]);return mk(`${S.t} ___ ${o} ${t}.`,be(S)+" "+v.ing,[wrongBe(S)+" "+v.ing,pres(v,S),v.p],`${t} = กำลังทำ → ${be(S)} + V-ing`)},
+   ()=>mk(`${S.t} ___ not ${v.b} ${o} on weekends.`,dO(S),[S.n==="s"?"do":"does",be(S),hv(S)],`ปฏิเสธ Present Simple: ${dO(S)} not + V1`),
+  ])();
+},
+past(){
+  const S=S1(),{v,o}=VO();
+  return R([
+   ()=>{const t=R(["yesterday","last week","two days ago","last month","in 2022"]);return mk(`${S.t} ___ ${o} ${t}.`,v.p,[pres(v,S),hv(S)+" "+v.pp,v.ing],`${t} → Past Simple (${v.b} → ${v.p})`)},
+   ()=>mk(`${S.t} did not ___ ${o} yesterday.`,v.b,[v.p,v.s3,v.ing],"did not + V1 เสมอ"),
+   ()=>mk(`At 3 p.m. yesterday, ${low(S.t)} ___ ${o}.`,beW(S)+" "+v.ing,[wrongBeW(S)+" "+v.ing,be(S)+" "+v.ing,v.ing],`กำลังทำ ณ เวลาหนึ่งในอดีต → ${beW(S)} + V-ing`),
+   ()=>mk(`While ${low(S.t)} ___ ${o}, the phone rang.`,beW(S)+" "+v.ing,[wrongBeW(S)+" "+v.ing,be(S)+" "+v.ing,v.ing],`while + Past Continuous (${beW(S)} + V-ing)`),
+  ])();
+},
+perfect(){
+  const S=S1(),{v,o}=VO();
+  return R([
+   ()=>{const t=R(["twice","three times","several times"])+" "+R(["since Monday","since last year","since 2020","since January"]);return mk(`${S.t} ___ ${o} ${t}.`,hv(S)+" "+v.pp,[wrongHv(S)+" "+v.pp,v.p===v.pp?pres(v,S):v.p,"will "+v.b],`since + จุดเริ่มต้น → Present Perfect (${hv(S)} + V3)`)},
+   ()=>mk(`${S.t} ${hv(S)} already ___ ${o}.`,v.pp,[v.b,v.ing,v.s3],`${hv(S)} + V3 (${v.b} → ${v.pp})`),
+   ()=>mk(`${S.t} ${hv(S)}n't ___ ${o} yet.`,v.pp,[v.b,v.ing,v.s3],`${hv(S)}n't + V3 … yet`),
+   ()=>mk(`By the time the manager arrived, ${low(S.t)} ___ ${o}.`,"had "+v.pp,[hv(S)+" "+v.pp,"will have "+v.pp,v.ing],"เกิดก่อนอีกเหตุการณ์ในอดีต → Past Perfect (had + V3)"),
+  ])();
+},
+future(){
+  const S=S1(),{v,o}=VO();
+  return R([
+   ()=>{const t=R(["next week","next month","tomorrow","next Friday"]);return mk(`${S.t} ___ ${o} ${t}.`,"will "+v.b,[v.p,hv(S)+" "+v.pp,v.ing],`${t} → อนาคต will + V1`)},
+   ()=>{const t=R(["By next month","By the end of the year","By Friday"]);return mk(`${t}, ${low(S.t)} ___ ${o}.`,"will have "+v.pp,["had "+v.pp,hv(S)+" "+v.pp,v.p],"by + เวลาในอนาคต → Future Perfect (will have + V3)")},
+   ()=>{const c=R(["as soon as","when","after"]);return mk(`I will call you ${c} ${low(S.t)} ___ ${o}.`,pres(v,S),["will "+v.b,"would "+v.b,v.ing],`หลัง ${c} ใช้ Present Simple แทน will`)},
+   ()=>mk(`This time tomorrow, ${low(S.t)} ___ ${o}.`,"will be "+v.ing,[beW(S)+" "+v.ing,hv(S)+" been "+v.ing,v.p],"กำลังทำ ณ เวลาหนึ่งในอนาคต → will be + V-ing"),
+  ])();
+},
+agreement(){
+  const pl=R(PLN),sg=pl[1],p=pl[0];
+  return R([
+   ()=>mk(`Every ${sg} ___ a copy of the schedule.`,"has",["have","having","to have"],"every + เอกพจน์ → has"),
+   ()=>mk(`One of the ${p} ___ missing.`,"is",["are","be","being"],"one of + พหูพจน์ แต่ประธานจริงคือ one → is"),
+   ()=>mk(`A number of ${p} ___ asked about the change.`,"have",["has","having","to have"],"a number of = หลาย → พหูพจน์ have"),
+   ()=>mk(`The number of ${p} ___ increasing.`,"is",["are","be","being"],"the number of → เอกพจน์ is"),
+   ()=>mk(`The list of ${p} ___ on the desk.`,"is",["are","be","being"],"ประธานจริงคือ the list → is"),
+   ()=>{const u=R(UNC);return mk(`The ${u} ___ ready for the meeting.`,"is",["are","be","being"],u+" นับไม่ได้ → เอกพจน์ is")},
+   ()=>mk(`Neither the manager nor the ${R(["interns","assistants","engineers","sales staff members"])} ___ available today.`,"are",["is","be","being"],"neither…nor… ผันตามคำที่ใกล้กริยา (พหูพจน์) → are"),
+   ()=>{const n=R(["two","three","several","five"]);return mk(`There ___ ${n} ${p} in the waiting room.`,"are",["is","be","being"],"there + กริยาผันตามคำนามที่ตามหลัง (พหูพจน์) → are")},
+   ()=>mk(`Each of the ${p} ___ a name tag.`,"has",["have","having","to have"],"each of → เอกพจน์ has"),
+   ()=>{const hd=R([["price","very high"],["quality","excellent"],["design","very modern"],["weight","only 1.2 kg"]]),pr=R(["laptops","printers","phones","chairs","products"]);const pl2=Math.random()<.4;
+     return pl2?mk(`The ${hd[0]}s of the new ${pr} ___ ${hd[1]}.`,"are",["is","be","being"],`ประธานจริงคือ the ${hd[0]}s (พหูพจน์) → are`):mk(`The ${hd[0]} of the new ${pr} ___ ${hd[1]}.`,"is",["are","be","being"],`ประธานจริงคือ the ${hd[0]} ไม่ใช่ ${pr} → is`)},
+   ()=>{const a=R(["Ms. Tan","Mr. Kim","Ms. Lopez","Mr. Ito","The manager"]),b=R(["her assistant","his team","the designers","Mr. Lee"]);return mk(`${a} and ${b} ___ in the meeting room now.`,"are",["is","be","being"],"A and B → พหูพจน์ are")},
+   ()=>{const d=R(["sales team","office","marketing department","IT department","Bangkok branch"]),x=R([["___ invited to the party.","is",["are","be","being"]],["___ a laptop.","has",["have","having","to have"]]]);
+     return mk(`Everyone in the ${d} ${x[0]}`,x[1],x[2],"everyone → เอกพจน์")},
+   ()=>{const a=R(["Ms. Tan","Mr. Kim","The manager","The director"]),b=R(["the engineers","her assistants","the interns","his staff members"]);return mk(`${a}, along with ${b}, ___ attending the fair.`,"is",["are","be","being"],"along with … ไม่นับเป็นประธาน ผันตาม "+a+" (เอกพจน์)")},
+  ])();
+},
+passive(){
+  const {v,o}=VO();if(["speak","meet","find"].includes(v.b))return null;
+  const thing=o.startsWith("the ")?o:"the "+o.replace(/^(a|an|two new|new|more) /,"");
+  const pl=/s$/.test(thing)&&!/(analysis|press|process|business)$/.test(thing);
+  const S={n:pl?"p":"s"};const T=cap(thing);
+  return R([
+   ()=>mk(`${T} ___ by the team yesterday.`,beW(S)+" "+v.pp,[v.p,beW(S)+" "+v.ing,hv(S)+" "+v.pp],`ประธานเป็นผู้ถูกกระทำ (มี by) ในอดีต → ${beW(S)} + V3`),
+   ()=>mk(`${T} must ___ by Friday.`,"be "+v.pp,[v.b,"being "+v.pp,v.ing],"modal + be + V3"),
+   ()=>mk(`${T} ___ next week.`,"will be "+v.pp,["will "+v.b,hv(S)+" "+v.pp,"will "+v.ing],"ประธานเป็นผู้ถูกกระทำในอนาคต → will be + V3"),
+   ()=>mk(`${T} ${hv(S)} already ___ ${v.pp}.`,"been",["being","be","to be"],`Present Perfect Passive: ${hv(S)} been + V3`),
+   ()=>mk(`${T} ${be(S)} ___ ${v.pp} right now.`,"being",["been","be","to be"],"กำลังถูกกระทำ: is/are being + V3"),
+  ])();
+},
+gerund(){
+  const S=S1(),{v,o}=VO();
+  return R([
+   ()=>{const g=R(ING_V);return mk(`${S.t} ${g[1]} ___ ${o}.`,v.ing,["to "+v.b,v.b,v.pp],`${g[0]} + V-ing`)},
+   ()=>{const g=R(TO_V);return mk(`${S.t} ${g[1]} ___ ${o}.`,"to "+v.b,[v.ing,v.b,v.pp],`${g[0]} + to V1`)},
+   ()=>{const g=R(PREP_ING);return mk(g.replace("{S}",S.t).replace("{be}",be(S)).replace("{O}",o),v.ing,["to "+v.b,v.b,v.pp],"หลังบุพบท (for, in, before, to ในสำนวน look forward to / be used to) ใช้ V-ing")},
+  ])();
+},
+compare(){
+  const a=R(ADJ),it=R(["model","laptop","printer","phone","option","plan"]);
+  const long=!!a[3];
+  const comp=a[1],sup=a[2];
+  const wrongComp=long?"much "+a[0]:"more "+a[0];const wrongSup=long?"very "+a[0]:"most "+a[0];
+  return R([
+   ()=>mk(`This ${it} is ___ than the old one.`,comp,[a[0],sup.replace(/^the /,""),wrongComp],`มี than → ขั้นกว่า (${a[0]} → ${comp})`),
+   ()=>mk(`This is the ___ ${it} we offer.`,sup.replace(/^the /,""),[comp,a[0],wrongSup],`the + ขั้นสุด (${a[0]} → ${sup})`),
+   ()=>mk(`The new ${it} is just as ___ as the old one.`,a[0],[comp,sup.replace(/^the /,""),wrongComp],"as + adj รูปปกติ + as"),
+   ()=>mk(`The new ${it} is much ___ than the old one.`,comp,[a[0],sup.replace(/^the /,""),wrongComp],"much + ขั้นกว่า + than"),
+  ])();
+},
+prep(){
+  return R([
+   ()=>{const e=R(["meeting","seminar","workshop","training session","sale"]);const t=R(PT);return mk(`The ${e} starts ___ ${t[0]}.`,t[1],["at","on","in"].filter(x=>x!==t[1]).concat(["by"]),t[2])},
+   ()=>{const S=S1();const d=R([["ten years","for"],["six months","for"],["two weeks","for"],["2019","since"],["last March","since"],["Monday","since"]]);
+     return mk(`${S.t} ${hv(S)} worked here ___ ${d[0]}.`,d[1],[d[1]==="for"?"since":"for","during","from"],d[1]==="for"?"for + ระยะเวลา":"since + จุดเริ่มต้น")},
+   ()=>{const d=R(["Friday","noon","the end of the month","May 5","tomorrow"]);return mk(`Please submit the form ___ ${d}.`,"by",["until","since","during"],"by = ภายใน (เส้นตาย)")},
+   ()=>{const d=R(["8 p.m.","midnight","the end of June","6 o'clock"]);return mk(`The store stays open ___ ${d}.`,"until",["by","since","during"],"until = ต่อเนื่องจนถึง")},
+   ()=>{const c=R(COLL);const S=S1();return mk(c[0].replace("{S}",S.t).replace("{be}",be(S)),c[1],c[2],c[3])},
+   ()=>{const p=R(PLACE);return mk(p[0],p[1],["at","on","in","to"].filter(x=>x!==p[1]),p[2])},
+  ])();
+},
+conj(){
+  const c=R(CAUSE),m=R(MAIN);
+  return R([
+   ()=>mk(`___ ${c[0]}, ${m[0]}.`,"Because",["Because of","Despite","Although"],"ตามด้วยประโยค + เหตุผล → Because"),
+   ()=>mk(`___ ${c[1]}, ${m[0]}.`,R(["Because of","Due to"]),["Because","Although","Despite"],"ตามด้วยคำนาม + เหตุผล → Because of / Due to"),
+   ()=>mk(`___ ${c[0]}, ${m[1]}.`,R(["Although","Even though"]),["Despite","Because","Because of"],"ตามด้วยประโยค + ขัดแย้ง → Although / Even though"),
+   ()=>mk(`___ ${c[1]}, ${m[1]}.`,R(["Despite","In spite of"]),["Although","Because","Due to"],"ตามด้วยคำนาม + ขัดแย้ง → Despite / In spite of"),
+   ()=>{const t=R(TRANS);return mk(t[0],t[1],t[2],t[3])},
+  ])();
+},
+relative(){
+  return R([
+   ()=>{const p=R(PERSON),v=R(["reviewed the contract","designed the logo","called this morning","led the workshop","won the award"]),pr=R(PRED);
+     return mk(`The ${p} ___ ${v} ${pr}.`,"who",["which","whose","where"],"ขยายคนที่ทำหน้าที่ประธาน → who")},
+   ()=>{const p=R(PERSON),v=R(["we hired last month","you met yesterday","the manager recommended","we interviewed on Monday"]),pr=R(PRED);
+     return mk(`The ${p} ___ ${v} ${pr}.`,"whom",["which","whose","where"],"ขยายคนที่ทำหน้าที่กรรม → whom")},
+   ()=>{const t=R(THING);return mk(`The ${t[0]} ___ ${t[1]} ${t[2]}.`,"which",["who","whose","where"],"ขยายสิ่งของ → which")},
+   ()=>{const p=R(PERSON),t=R([["laptop was stolen","called the IT desk"],["flight was cancelled","stayed an extra night"],["proposal was accepted","received a bonus"],["office is on the top floor","has a great view"]]);
+     return mk(`The ${p}, ___ ${t[0]}, ${t[1]}.`,"whose",["who","which","whom"],"whose + คำนาม = …ของเขา")},
+   ()=>{const p=R(WHERE);return mk(`This is the ${p[0]} ___ ${p[1]}.`,"where",["which","who","when"],"สถานที่ + ประโยคสมบูรณ์ → where")},
+   ()=>{const d=R(["day","year","week","moment"]);const e=R(["the company was founded","we opened our first store","the new CEO joined","we signed the deal"]);
+     return mk(`I still remember the ${d} ___ ${e}.`,"when",["where","which","who"],"ขยายคำบอกเวลา → when")},
+   ()=>{const t=R([["Our new app","was launched in May"],["The Osaka branch","opened last year"],["The annual report","is now online"],["The company picnic","was held in June"]]);
+     return mk(`${t[0]}, ___ ${t[1]}, is very popular.`,"which",["that","who","where"],"หลัง comma ใช้ that ไม่ได้ ขยายสิ่งของ → which")},
+  ])();
+},
+condition(){
+  const S=S1(),{v,o}=VO();
+  return R([
+   ()=>mk(`If ${low(S.t)} ___ ${o} today, we will meet the deadline.`,pres(v,S),["will "+v.b,"would "+v.b,"had "+v.pp],"If แบบ 1: If + Present Simple, will + V1"),
+   ()=>mk(`If we had more time, ${low(S.t)} ___ ${o}.`,"would "+v.b,["will "+v.b,"would have "+v.pp,pres(v,S)],"If แบบ 2: If + V2, would + V1"),
+   ()=>mk(`If ${low(S.t)} had ___ ${o} earlier, we would have finished on time.`,v.pp,v.pp===v.p?[v.b,v.ing,v.s3]:[v.p,v.b,v.ing],"If แบบ 3: If + had + V3"),
+   ()=>mk(`If ${low(S.t)} had ${v.pp} ${o} earlier, we ___ on time.`,"would have finished",["will finish","would finish","had finished"],"If แบบ 3 → would have + V3"),
+   ()=>{const x=R(COND_X);return mk(x[0],x[1],x[2],x[3])},
+  ])();
+},
+question(){
+  const S=S1(),{v,o}=VO();const st=low(S.t);
+  return R([
+   ()=>mk(`___ ${st} ${v.b} ${o} yesterday?`,"Did",[cap(dO(S)),cap(beW(S)),cap(hv(S))],"yesterday → Did + S + V1"),
+   ()=>mk(`___ ${st} usually ${v.b} ${o}?`,cap(dO(S)),[S.n==="s"?"Do":"Does",cap(be(S)),cap(hv(S))],`Present Simple คำถาม → ${cap(dO(S))} + S + V1`),
+   ()=>mk(`___ ${st} ${v.ing} ${o} now?`,cap(be(S)),[cap(dO(S)),cap(wrongBe(S)),cap(hv(S))],`กำลังทำ → ${cap(be(S))} + S + V-ing`),
+   ()=>mk(`___ ${st} already ${v.pp} ${o}?`,cap(hv(S)),[cap(wrongHv(S)),cap(dO(S)),cap(be(S))],`Present Perfect คำถาม → ${cap(hv(S))} + S + V3`),
+   ()=>{if(!S.pr||S.pr==="I"||S.pr==="you"||S.pr==="we")return null;const t=(S.n==="s"?"doesn't ":"don't ")+S.pr;
+     return mk(`${S.t} ${pres(v,S)} ${o} every week, ___?`,t,[(S.n==="s"?"does ":"do ")+S.pr,(S.n==="s"?"isn't ":"aren't ")+S.pr,"didn't "+S.pr],"ประโยคบอกเล่า Present Simple → tag ปฏิเสธ "+t)},
+   ()=>{const e=R(["meeting","seminar","tour","train","workshop","flight"]);const b=["train","flight","tour"].includes(e)?"leave":"start";return mk(`Could you tell me what time the ${e} ___?`,b+"s",["does "+b,b,"is "+b],"Indirect question เรียง S + V และไม่ใช้ do")},
+  ])();
+}
+};
+function shuffleA(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* --- data for generators --- */
+const WFEX={};
+// [sentence, answer, distractor x3+]
+const WFAM={
+ success:["success","successful","successfully","succeed"],
+ efficiency:["efficiency","efficient","efficiently","efficiencies"],
+ care:["care","careful","carefully","carefulness"],
+ quick:["quickness","quick","quickly","quicken"],
+ effective:["effectiveness","effective","effectively","effect"],
+ accurate:["accuracy","accurate","accurately","accurateness"],
+ creative:["creativity","creative","creatively","create"],
+ professional:["professionalism","professional","professionally","profession"],
+ complete:["completion","complete","completely","completeness"],
+ impressive:["impression","impressive","impressively","impress"],
+ inform:["information","informative","informatively","inform"],
+ produce:["production","productive","productively","produce"],
+ compete:["competition","competitive","competitively","compete"],
+ reliable:["reliability","reliable","reliably","rely"],
+ decide:["decision","decisive","decisively","decide"],
+ attract:["attraction","attractive","attractively","attract"],
+ dramatic:["drama","dramatic","dramatically","dramatize"],
+ significant:["significance","significant","significantly","signify"],
+ considerable:["consideration","considerable","considerably","consider"],
+ convenient:["convenience","convenient","conveniently","conveniences"],
+ economic:["economy","economical","economically","economize"]
+};
+// frames: [text, slot(n/adj/adv/v), families allowed, which form index is answer]
+const WFR=[
+ ["The team completed the project ___.","adv",["success","efficiency","quick","care","professional","effective"]],
+ ["The staff worked ___ to meet the deadline.","adv",["efficiency","quick","care","produce","effective","creative"]],
+ ["Please fill out the form ___.","adv",["care","accurate","complete","quick"]],
+ ["We price our products ___ to attract new customers.","adv",["compete","attract"]],
+ ["The presentation was very ___.","adj",["inform","impressive","creative","professional","effective"]],
+ ["Ms. Lee is a highly ___ manager.","adj",["effective","efficiency","professional","creative","reliable","success","decide"]],
+ ["The new software is extremely ___.","adj",["reliable","efficiency","effective","impressive"]],
+ ["We offer ___ prices on all products.","adj",["compete","attract"]],
+ ["The company is known for its ___.","n",["reliable","efficiency","creative","professional","accurate"]],
+ ["The ___ of the new factory took two years.","n",["complete","produce"]],
+ ["We need to make a ___ by Friday.","n",["decide"]],
+ ["Please send me more ___ about the course.","n",["inform"]],
+ ["There is strong ___ in the smartphone market.","n",["compete"]],
+ ["The new park is a popular tourist ___.","n",["attract"]],
+ ["Please ___ us of any changes to the schedule.","v",["inform"]],
+ ["Small shops find it hard to ___ with large chains.","v",["compete"]],
+ ["The factory will ___ 500 cars a day.","v",["produce"]],
+ ["Many customers ___ on our delivery service.","v",["reliable"]],
+ ["Sales have increased ___ this year.","adv",["dramatic","significant","considerable"]],
+ ["There has been a ___ increase in online orders.","adj",["dramatic","significant","considerable"]],
+ ["The new machine has ___ reduced our costs.","adv",["significant","considerable","dramatic"]],
+ ["The hotel is ___ located near the station.","adv",["convenient"]],
+ ["Online banking offers great ___ to customers.","n",["convenient"]],
+ ["We need a more ___ way to ship our goods.","adj",["economic","efficiency","effective","reliable","convenient"]],
+ ["Ms. Diaz gave a ___ speech at the event.","adj",["impressive","inform","creative","professional"]],
+ ["We were impressed by the ___ of her work.","n",["accurate","creative","professional","quick","efficiency"]],
+ ["Our technicians respond ___ to every request.","adv",["quick","professional","efficiency","reliable"]],
+ ["Thank you for your ___ of our proposal.","n",["considerable"]]
+];
+const SLOTI={n:0,adj:1,adv:2,v:3};
+const SLOTEX={n:"ตำแหน่งนี้ต้องเป็นคำนาม (หลัง a/the/its/more หรือหน้า of)",adj:"ตำแหน่งนี้ต้องเป็น adjective (หลัง be/very หรือหน้าคำนาม)",adv:"ขยายกริยาต้องเป็น adverb (-ly)",v:"ตำแหน่งนี้ต้องเป็นกริยา (หลัง to, will หรือประธาน)"};
+GEN.wordform=function(){
+  const fr=R(WFR);const fam=WFAM[R(fr[2])];let i=SLOTI[fr[1]];
+  const ans=fam[i];
+  return mk(fr[0],ans,shuffleA(fam.filter(x=>x!==ans)),SLOTEX[fr[1]]+" → "+ans);
+};
+// plurals: [singular, plural, wrong1, wrong2, note]
+const PL=[["company","companies","companys","companyes","พยัญชนะ + y → ies"],["library","libraries","librarys","libraryes","พยัญชนะ + y → ies"],
+["factory","factories","factorys","factoryes","พยัญชนะ + y → ies"],["policy","policies","policys","policyes","พยัญชนะ + y → ies"],
+["branch","branches","branchs","branchies","ลงท้าย ch → es"],["box","boxes","boxs","boxies","ลงท้าย x → es"],["address","addresses","address's","addressies","ลงท้าย ss → es"],
+["process","processes","processs","process's","ลงท้าย ss → es"],["shelf","shelves","shelfs","shelfes","f → ves"],["knife","knives","knifes","knifies","fe → ves"],
+["person","people","persones","personies","รูปพิเศษ"],["child","children","childs","childrens","รูปพิเศษ"],["woman","women","womans","womens","รูปพิเศษ"],
+["day","days","daies","dayes","สระ + y → เติม s"],["key","keys","kies","keyes","สระ + y → เติม s"],
+["employee","employees","employes","employeees","เติม s"],["photo","photos","photoes","photo's","photo เติม s"],["tooth","teeth","tooths","teeths","รูปพิเศษ"],
+["analysis","analyses","analysises","analysiss","is → es"],["criterion","criteria","criterions","criterias","รูปพิเศษ"]].map(x=>[x[0],x[1],x[2],x[3],x[4]]);
+const UNC=["information","equipment","furniture","advice","money","research","feedback","luggage","software","machinery"];
+const CNT=["chairs","laptops","tickets","volunteers","boxes","rooms","brochures","name tags"];
+const PLN=[["employees","employee"],["clients","client"],["printers","printer"],["applicants","applicant"],["documents","document"],["visitors","visitor"],["participants","participant"],["managers","manager"]];
+// [noun phrase, article, explanation]
+const ART=[["engineer","an","เสียงสระ → an"],["accountant","an","เสียงสระ → an"],["designer","a","เสียงพยัญชนะ → a"],["honest mistake","an","h ไม่ออกเสียง → an"],
+["university project","a","university ออกเสียง 'ยู' (เสียงพยัญชนะ) → a"],["European company","a","European ออกเสียง 'ยู' → a"],["hour-long meeting","an","h ไม่ออกเสียง → an"],
+["MBA program","an","M อ่านว่า 'เอ็ม' (เสียงสระ) → an"],["one-day event","a","one ออกเสียง 'วัน' (เสียงพยัญชนะ) → a"],["useful tool","a","useful ออกเสียง 'ยู' → a"],
+["umbrella","an","เสียงสระ → an"],["uniform","a","uniform ออกเสียง 'ยู' → a"],["office","an","เสียงสระ → an"],["interview room","an","เสียงสระ → an"],
+["email","an","เสียงสระ → an"],["hotel","a","h ออกเสียง → a"],["unusual request","an","unusual ออกเสียง 'อัน' (เสียงสระ) → an"],["FAQ page","an","F อ่านว่า 'เอฟ' (เสียงสระ) → an"],
+["user guide","a","user ออกเสียง 'ยู' → a"],["important email","an","เสียงสระ → an"],["new client","a","เสียงพยัญชนะ → a"],["online course","an","เสียงสระ → an"],
+["easy task","an","เสียงสระ → an"],["useful website","a","useful ออกเสียง 'ยู' → a"],["honor","an","h ไม่ออกเสียง → an"],["heavy box","a","h ออกเสียง → a"],
+["X-ray machine","an","X อ่านว่า 'เอ็กซ์' (เสียงสระ) → an"],["unique design","a","unique ออกเสียง 'ยู' → a"],["old building","an","เสียงสระ → an"],["IT technician","an","I อ่านว่า 'ไอ' (เสียงสระ) → an"],
+["annual report","an","เสียงสระ → an"],["union meeting","a","union ออกเสียง 'ยู' → a"],["excellent idea","an","เสียงสระ → an"],["historic hotel","a","h ออกเสียง → a"]];
+const SUP=["best hotel","cheapest option","largest company","most popular café","oldest building","busiest station","most modern office"];
+// pronoun sets
+const PRON=[{n:"Mr. Ito",s:"he",o:"him",p:"his",r:"himself",m:"his"},{n:"Ms. Tan",s:"she",o:"her",p:"her",r:"herself",m:"hers"},
+{n:"The interns",s:"they",o:"them",p:"their",r:"themselves",m:"theirs"},{n:"Mr. and Mrs. Hill",s:"they",o:"them",p:"their",r:"themselves",m:"theirs"},
+{n:"Ms. Lopez",s:"she",o:"her",p:"her",r:"herself",m:"hers"},{n:"Mr. Kim",s:"he",o:"him",p:"his",r:"himself",m:"his"},{n:"The new staff",s:"they",o:"them",p:"their",r:"themselves",m:"theirs"},
+{n:"Mr. Garcia",s:"he",o:"him",p:"his",r:"himself",m:"his"},{n:"Ms. Chen",s:"she",o:"her",p:"her",r:"herself",m:"hers"},{n:"Ms. Park",s:"she",o:"her",p:"her",r:"herself",m:"hers"},
+{n:"Mr. Lee",s:"he",o:"him",p:"his",r:"himself",m:"his"},{n:"The engineers",s:"they",o:"them",p:"their",r:"themselves",m:"theirs"},{n:"Our clients",s:"they",o:"them",p:"their",r:"themselves",m:"theirs"}];
+const PRF=[
+ {f:"{N} left ___ keys at the front desk.",k:"p",ex:"หน้าคำนามใช้ possessive adjective"},
+ {f:"{N} finished the slides by ___.",k:"r",ex:"by + -self = ด้วยตัวเอง"},
+ {f:"The manager thanked {N} and gave ___ a bonus.",k:"o",ex:"หลังกริยา gave ใช้รูปกรรม"},
+ {f:"{N} said that ___ would arrive at noon.",k:"s",ex:"หน้ากริยาใช้รูปประธาน"},
+ {f:"{N} introduced ___ to the new clients.",k:"r",ex:"ประธานกับกรรมเป็นคนเดียวกัน → -self"},
+ {f:"These files belong to {N}. They are ___.",k:"m",ex:"ไม่มีคำนามตามหลัง → possessive pronoun"},
+ {f:"Please send the invoice to {N} and copy ___ on the email.",k:"o",ex:"หลังกริยา copy ใช้รูปกรรม"},
+ {f:"{N} forgot ___ password again.",k:"p",ex:"หน้าคำนามใช้ possessive adjective"},
+ {f:"{N} will present ___ ideas at the meeting.",k:"p",ex:"หน้าคำนามใช้ possessive adjective"},
+ {f:"{N} told us that ___ had finished the report.",k:"s",ex:"หน้ากริยาใช้รูปประธาน"},
+ {f:"We met {N} and invited ___ to the dinner.",k:"o",ex:"หลังกริยา invited ใช้รูปกรรม"},
+ {f:"{N} repaired the printer ___ instead of calling a technician.",k:"r",ex:"ทำเองกับมือ → -self"},
+ {f:"The blue folder is mine, and the red one is ___. It belongs to {N}.",k:"m",ex:"ไม่มีคำนามตามหลัง → possessive pronoun"},
+ {f:"The client praised {N} for ___ hard work.",k:"p",ex:"หน้าคำนามใช้ possessive adjective"}
+];
+const ADJ=[["cheap","cheaper","the cheapest"],["fast","faster","the fastest"],["light","lighter","the lightest"],["small","smaller","the smallest"],
+["new","newer","the newest"],["good","better","the best"],["easy","easier","the easiest"],["large","larger","the largest"],
+["expensive","more expensive","the most expensive",1],["reliable","more reliable","the most reliable",1],["popular","more popular","the most popular",1],
+["efficient","more efficient","the most efficient",1],["powerful","more powerful","the most powerful",1],["affordable","more affordable","the most affordable",1],["modern","more modern","the most modern",1]];
+const ING_V=[["enjoy","enjoyed"],["avoid","avoided"],["finish","finished"],["consider","considered"],["suggest","suggested"],["recommend","recommended"],["postpone","postponed"],["keep","kept"],["deny","denied"],["mind","did not mind"]];
+const TO_V=[["want","wanted"],["plan","planned"],["decide","decided"],["hope","hoped"],["agree","agreed"],["offer","offered"],["refuse","refused"],["expect","expected"],["need","needed"],["promise","promised"],["intend","intended"],["fail","failed"]];
+const PREP_ING=["Thank you for ___ {O}.","{S} {be} interested in ___ {O}.","Please check the list before ___ {O}.","{S} {be} responsible for ___ {O}.","We look forward to ___ {O}.","{S} {be} used to ___ {O}."];
+// time: [phrase, prep, ex]
+const PT=[["9 a.m.","at","เวลาที่ระบุใช้ at"],["noon","at","noon ใช้ at"],["3:30 p.m.","at","เวลาที่ระบุใช้ at"],["Monday","on","วันใช้ on"],["May 5","on","วันที่ใช้ on"],
+["Friday morning","on","วัน + ช่วงเวลาใช้ on"],["July","in","เดือนใช้ in"],["2027","in","ปีใช้ in"],["the afternoon","in","in the morning/afternoon/evening"],["the spring","in","ฤดูใช้ in"],["midnight","at","midnight ใช้ at"],["June 12","on","วันที่ใช้ on"]];
+const COLL=[["{S} {be} responsible ___ the budget.","for",["of","to","with"],"responsible for"],["{S} {be} interested ___ the new position.","in",["on","at","for"],"interested in"],
+["The price depends ___ the size of the order.","on",["in","at","of"],"depend on"],["{S} {be} in charge ___ the new project.","of",["for","to","with"],"in charge of"],
+["{S} {be} familiar ___ the software.","with",["to","of","in"],"familiar with"],["___ the report, sales rose by 10%.","According to",["Due to","Because","Despite"],"according to = ตามที่ระบุใน"],
+["{S} applied ___ the manager position.","for",["to","in","at"],"apply for + ตำแหน่ง"],["The flight was delayed ___ fog.","due to",["because","although","so"],"due to + คำนาม"],
+["{S} {be} aware ___ the new rules.","of",["in","for","to"],"aware of"],["Thank you ___ your quick reply.","for",["to","of","with"],"thank you for"]];
+const PLACE=[["Our office is ___ the fifth floor.","on","ชั้นของอาคารใช้ on"],["The head office is ___ Bangkok.","in","เมืองใช้ in"],["Please meet me ___ the main entrance.","at","จุดที่ระบุใช้ at"],
+["The documents are ___ the top drawer.","in","ข้างในใช้ in"],["The poster is ___ the wall.","on","บนพื้นผิวใช้ on"],["Ms. Tan is waiting ___ the reception desk.","at","จุดที่ระบุใช้ at"],["Our store is ___ Silom Road.","on","ชื่อถนนใช้ on"]];
+const CAUSE=[["it rained heavily","the heavy rain"],["there was a power outage","a power outage"],["the traffic was heavy","the heavy traffic"],["several staff members were sick","staff illness"],
+["the system crashed","a system failure"],["a storm hit the city","the storm"],["the supplier was late","the supplier's delay"],["the road was closed","the road closure"]];
+const MAIN=[["the meeting started late","the meeting started on time"],["the shipment arrived late","the shipment arrived on schedule"],["the event was cancelled","the event went ahead as planned"],
+["sales dropped this week","sales remained strong this week"],["the store closed early","the store stayed open"]];
+const TRANS=[["Prices rose sharply. ___, demand stayed high.","However",["Therefore","Because","Although"],"ขัดแย้งกัน เชื่อมสองประโยค → However,"],
+["The printer is broken. ___, we cannot print the handouts.","Therefore",["However","Although","Despite"],"เป็นผลลัพธ์ → Therefore,"],
+["The hotel is cheap. ___, it is close to the station.","Moreover",["However","Otherwise","Therefore"],"เพิ่มข้อดี → Moreover,"],
+["Please reply by Friday. ___, your seat may be given to someone else.","Otherwise",["Moreover","Therefore","Although"],"มิฉะนั้น → Otherwise,"],
+["We offer many services. ___, we can design your website.","For example",["However","Otherwise","Although"],"ยกตัวอย่าง → For example,"],
+["The plan is ___ cheap and effective.","both",["either","neither","not only"],"both … and …"],
+["You can contact us ___ by phone or by email.","either",["both","neither","not only"],"either … or …"],
+["___ the manager nor her assistant was in the office.","Neither",["Either","Both","Not only"],"neither … nor …"],
+["The course is not only useful ___ also fun.","but",["and","or","so"],"not only … but also …"],
+["Please arrive early ___ we can start on time.","so that",["because of","despite","due to"],"so that + ประโยค = เพื่อที่จะ"],
+["We will not ship the order ___ we receive payment.","until",["during","despite","due to"],"not … until = ไม่…จนกว่า"],
+["You will be late ___ you leave now.","unless",["if","because","so"],"unless = ถ้าไม่"]];
+const PERSON=["consultant","engineer","designer","applicant","intern","speaker","technician","accountant"];
+const PRED=["is from Tokyo","will join us tomorrow","works in our Osaka office","is very experienced","has left the company"];
+const THING=[["report","we received yesterday","is incomplete"],["laptop","I bought last week","is already broken"],["printer","the IT team installed","works well"],
+["contract","the client signed","is in the folder"],["room","we booked","is too small"],["software","we use","needs an update"],["proposal","Ms. Tan wrote","was approved"]];
+const WHERE=[["hotel","we stayed last year"],["restaurant","we had our team dinner"],["office","I used to work"],["room","we hold our weekly meetings"],["city","the conference will take place"],["warehouse","the goods are stored"]];
+const COND_X=[["___ you have any questions, please contact us.","Should",["Would","Had","Were"],"Should you… = If you…"],
+["___ I known about the problem, I would have helped.","Had",["Have","If","Should"],"Had I known = If I had known"],
+["If I ___ you, I would accept the offer.","were",["am","will be","had"],"If แบบ 2 ใช้ were ได้กับทุกประธาน"],
+["If you heat ice, it ___.","melts",["will melted","melted","melting"],"ความจริง → If แบบ 0"],
+["We will miss the deadline ___ we work faster.","unless",["if","because","so"],"unless = ถ้าไม่"],
+["___ the weather be bad, the event will move indoors.","Should",["Would","Had","Were"],"Should + S + V1 = If + S + …"],
+["If it ___ tomorrow, the picnic will be cancelled.","rains",["will rain","rained","raining"],"If แบบ 1: If + Present Simple"]];
+
+/* sample one generated question for a lesson (retry if a template can't build) */
+function genQ(id){for(let i=0;i<20;i++){const q=GEN[id]();if(q&&q[1].every(x=>typeof x==="string"&&x.length))return q;}return null}
+
+/* pick n unique questions for a lesson: some handwritten + rest generated */
+function lessonSet(id,n,nHand){
+  const out=[],seen=new Set();
+  shuffleA(LESSONS[id].q).slice(0,nHand).forEach(q=>{seen.add(q[0]);out.push(q)});
+  let guard=0;
+  while(out.length<n&&guard++<200){const q=genQ(id);if(q&&!seen.has(q[0])){seen.add(q[0]);out.push(q)}}
+  return shuffleA(out);
+}
+
+const BANK={"structure": 4131, "noun": 186, "article": 47, "pronoun": 182, "present": 16248, "past": 10845, "perfect": 20365, "future": 15147, "agreement": 180, "passive": 360, "gerund": 33340, "compare": 360, "prep": 284, "conj": 292, "relative": 425, "condition": 5464, "question": 6243, "wordform": 81};
+const bankSize=id=>BANK[id]+LESSONS[id].q.length;
+/* ===== DAILY VOCAB: 30 themes x 10 words  [word, pos, Thai, example] ===== */
+const DAILY_THEMES=[
+["🏢 Office",[
+["agenda","n.","วาระการประชุม","Please read the agenda before the meeting."],
+["deadline","n.","กำหนดส่ง","The deadline for the report is Friday."],
+["colleague","n.","เพื่อนร่วมงาน","My colleague helped me finish the slides."],
+["supervisor","n.","หัวหน้างาน","Ask your supervisor before you leave early."],
+["memo","n.","บันทึกภายใน","The manager sent a memo about the new policy."],
+["schedule","n.","ตารางเวลา","Let me check my schedule for next week."],
+["document","n.","เอกสาร","Please sign the document at the bottom."],
+["stationery","n.","เครื่องเขียน","We need to order more stationery."],
+["extension","n.","เบอร์ต่อภายใน","You can reach me at extension 204."],
+["cubicle","n.","โต๊ะทำงานแบบมีฉากกั้น","Her cubicle is next to the window."]]],
+["🧑‍💼 Hiring",[
+["applicant","n.","ผู้สมัคร","Each applicant must submit a résumé."],
+["candidate","n.","ผู้สมัครที่เข้ารอบ","We interviewed three candidates today."],
+["résumé","n.","ประวัติย่อ (เรซูเม่)","Please attach your résumé to the email."],
+["interview","n.","การสัมภาษณ์","The interview will last about 30 minutes."],
+["qualification","n.","คุณสมบัติ","A degree in finance is a required qualification."],
+["position","n.","ตำแหน่งงาน","She applied for the sales manager position."],
+["hire","v.","จ้าง","The company plans to hire ten new staff."],
+["recruit","v.","สรรหา (พนักงาน)","We recruit graduates every spring."],
+["probation","n.","ช่วงทดลองงาน","New employees have a three-month probation."],
+["reference","n.","บุคคลอ้างอิง","Please list two references on the form."]]],
+["💼 Employment",[
+["promotion","n.","การเลื่อนตำแหน่ง","He received a promotion to team leader."],
+["salary","n.","เงินเดือน","The salary depends on experience."],
+["benefits","n.","สวัสดิการ","The benefits include health insurance."],
+["resign","v.","ลาออก","Ms. Diaz decided to resign last month."],
+["retire","v.","เกษียณ","Mr. Lee will retire after 30 years."],
+["transfer","v.","ย้าย (ตำแหน่ง/สาขา)","She was transferred to the Tokyo branch."],
+["workload","n.","ปริมาณงาน","Our workload increases at the end of the year."],
+["overtime","n.","การทำงานล่วงเวลา","Staff are paid extra for overtime."],
+["shift","n.","กะทำงาน","The night shift starts at 10 p.m."],
+["payroll","n.","บัญชีเงินเดือน","Payroll is processed on the 25th."]]],
+["🗣️ Meetings",[
+["attend","v.","เข้าร่วม","All managers must attend the meeting."],
+["postpone","v.","เลื่อนออกไป","The meeting was postponed until Monday."],
+["reschedule","v.","กำหนดเวลาใหม่","Can we reschedule the call to 3 p.m.?"],
+["minutes","n.","บันทึกการประชุม","Ms. Kim took the minutes of the meeting."],
+["participant","n.","ผู้เข้าร่วม","Each participant will receive a name tag."],
+["conference","n.","การประชุมใหญ่","The conference will be held in Seoul."],
+["presentation","n.","การนำเสนอ","His presentation was clear and short."],
+["proposal","n.","ข้อเสนอ","The board approved our proposal."],
+["consensus","n.","ความเห็นพ้องกัน","The team reached a consensus quickly."],
+["adjourn","v.","ปิด/พักการประชุม","The meeting was adjourned at noon."]]],
+["💰 Finance",[
+["budget","n.","งบประมาณ","We are over budget this month."],
+["revenue","n.","รายได้","Revenue rose by 12 percent."],
+["expense","n.","ค่าใช้จ่าย","Travel expenses will be paid by the company."],
+["profit","n.","กำไร","The store made a small profit last year."],
+["invoice","n.","ใบแจ้งหนี้","Please pay the invoice within 30 days."],
+["receipt","n.","ใบเสร็จ","Keep your receipt for any returns."],
+["reimburse","v.","จ่ายเงินคืน (เบิก)","The company will reimburse your taxi fare."],
+["audit","n.","การตรวจสอบบัญชี","The annual audit starts next week."],
+["quarterly","adj.","รายไตรมาส","The quarterly report is due in April."],
+["forecast","n.","การคาดการณ์","The sales forecast looks positive."]]],
+["🏦 Banking",[
+["account","n.","บัญชี","I opened a new bank account."],
+["deposit","v.","ฝากเงิน","She deposited the check this morning."],
+["withdraw","v.","ถอนเงิน","You can withdraw cash at any ATM."],
+["balance","n.","ยอดคงเหลือ","Please check your account balance."],
+["loan","n.","เงินกู้","The bank approved our loan."],
+["interest","n.","ดอกเบี้ย","The interest rate is 3 percent."],
+["transaction","n.","รายการธุรกรรม","Each transaction is recorded online."],
+["statement","n.","รายการเดินบัญชี","Your monthly statement was sent by email."],
+["fee","n.","ค่าธรรมเนียม","There is no fee for online transfers."],
+["mortgage","n.","สินเชื่อบ้าน","They took out a mortgage to buy a house."]]],
+["📣 Marketing",[
+["advertise","v.","โฆษณา","We advertise on social media."],
+["campaign","n.","แคมเปญ","The new campaign starts in May."],
+["launch","v.","เปิดตัว","The company will launch a new app."],
+["brand","n.","แบรนด์","Customers trust our brand."],
+["competitor","n.","คู่แข่ง","Our main competitor lowered its prices."],
+["discount","n.","ส่วนลด","Members get a 10 percent discount."],
+["target","n.","เป้าหมาย","We met our sales target."],
+["survey","n.","แบบสำรวจ","Please complete this short survey."],
+["consumer","n.","ผู้บริโภค","Consumers want faster delivery."],
+["market share","n.","ส่วนแบ่งการตลาด","Our market share grew to 20 percent."]]],
+["🙋 Customer Service",[
+["complaint","n.","ข้อร้องเรียน","We received a complaint about the noise."],
+["refund","n.","การคืนเงิน","You can get a full refund within 14 days."],
+["exchange","v.","เปลี่ยน (สินค้า)","Can I exchange this shirt for a larger size?"],
+["warranty","n.","การรับประกัน","The laptop has a two-year warranty."],
+["inquiry","n.","การสอบถาม","Thank you for your inquiry."],
+["satisfaction","n.","ความพึงพอใจ","Customer satisfaction is our priority."],
+["replace","v.","เปลี่ยนแทน","We will replace the broken item for free."],
+["apologize","v.","ขอโทษ","We apologize for the delay."],
+["feedback","n.","ความคิดเห็นตอบกลับ","We welcome your feedback."],
+["representative","n.","ตัวแทน/พนักงาน","A representative will call you back."]]],
+["🛒 Retail",[
+["purchase","v.","ซื้อ","You can purchase tickets online."],
+["merchandise","n.","สินค้า","All merchandise is 20 percent off."],
+["retail","n.","การขายปลีก","She has ten years of experience in retail."],
+["wholesale","n.","การขายส่ง","We buy coffee beans at wholesale prices."],
+["inventory","n.","สินค้าคงคลัง","We check the inventory every Friday."],
+["out of stock","phr.","สินค้าหมด","This model is currently out of stock."],
+["checkout","n.","จุดชำระเงิน","Please pay at the checkout."],
+["voucher","n.","บัตรกำนัล","Use this voucher on your next visit."],
+["aisle","n.","ทางเดินระหว่างชั้นวาง","Batteries are in aisle five."],
+["cashier","n.","พนักงานเก็บเงิน","The cashier gave me the wrong change."]]],
+["📦 Shipping",[
+["shipment","n.","การจัดส่ง (สินค้า)","The shipment arrived two days late."],
+["deliver","v.","ส่ง (ของ)","We deliver within 24 hours."],
+["package","n.","พัสดุ","A package came for you this morning."],
+["courier","n.","บริษัทขนส่ง/พนักงานส่งของ","The documents were sent by courier."],
+["freight","n.","การขนส่งสินค้า (ทางเรือ/อากาศ)","Freight costs have risen sharply."],
+["warehouse","n.","คลังสินค้า","The goods are stored in our warehouse."],
+["track","v.","ติดตาม","You can track your order online."],
+["dispatch","v.","ส่งออกไป","Orders are dispatched the same day."],
+["customs","n.","ศุลกากร","The parcel is being held at customs."],
+["delay","n.","ความล่าช้า","We are sorry for the delay."]]],
+["✈️ Travel",[
+["itinerary","n.","กำหนดการเดินทาง","I emailed you the itinerary for the trip."],
+["reservation","n.","การจอง","I made a reservation for two nights."],
+["boarding pass","n.","บัตรขึ้นเครื่อง","Please show your boarding pass at the gate."],
+["departure","n.","การออกเดินทาง","The departure time is 7:45 a.m."],
+["arrival","n.","การมาถึง","Our arrival was delayed by fog."],
+["layover","n.","การแวะต่อเครื่อง","We have a two-hour layover in Doha."],
+["luggage","n.","กระเป๋าเดินทาง","Do not leave your luggage unattended."],
+["accommodation","n.","ที่พัก","Accommodation is included in the price."],
+["check in","v.","เช็คอิน","Guests can check in after 2 p.m."],
+["destination","n.","จุดหมายปลายทาง","Bali is a popular destination."]]],
+["🏨 Hotel & Dining",[
+["complimentary","adj.","ฟรี (ให้เปล่า)","Breakfast is complimentary for all guests."],
+["amenities","n.","สิ่งอำนวยความสะดวก","The hotel amenities include a pool and gym."],
+["vacancy","n.","ห้องว่าง/ตำแหน่งว่าง","Sorry, there is no vacancy tonight."],
+["suite","n.","ห้องสวีท","The CEO stayed in the presidential suite."],
+["reception","n.","แผนกต้อนรับ","Please leave your key at reception."],
+["cater","v.","จัดเลี้ยง/บริการอาหาร","A local company will cater the event."],
+["beverage","n.","เครื่องดื่ม","Food and beverages are not allowed inside."],
+["venue","n.","สถานที่จัดงาน","The venue can hold 300 people."],
+["appetizer","n.","อาหารเรียกน้ำย่อย","We ordered two appetizers to share."],
+["gratuity","n.","ทิป/ค่าบริการ","A 10 percent gratuity is added to the bill."]]],
+["🏭 Manufacturing",[
+["factory","n.","โรงงาน","The factory runs 24 hours a day."],
+["assemble","v.","ประกอบ","Workers assemble the parts by hand."],
+["equipment","n.","อุปกรณ์","All equipment must be checked daily."],
+["machinery","n.","เครื่องจักร","The new machinery saves time."],
+["defect","n.","ข้อบกพร่อง","Every product is checked for defects."],
+["quality control","n.","การควบคุมคุณภาพ","Quality control found a problem."],
+["output","n.","ผลผลิต","Output increased by 15 percent."],
+["raw material","n.","วัตถุดิบ","The price of raw materials went up."],
+["plant","n.","โรงงาน (ขนาดใหญ่)","The company is building a new plant in Vietnam."],
+["maintenance","n.","การซ่อมบำรุง","The elevator is closed for maintenance."]]],
+["📜 Contracts",[
+["contract","n.","สัญญา","Please read the contract carefully."],
+["agreement","n.","ข้อตกลง","Both sides signed the agreement."],
+["terms","n.","เงื่อนไข","We agreed to the terms of payment."],
+["clause","n.","ข้อ (ในสัญญา)","Clause 5 explains the refund policy."],
+["negotiate","v.","เจรจาต่อรอง","We negotiated a lower price."],
+["sign","v.","ลงนาม","Please sign here and here."],
+["expire","v.","หมดอายุ","My contract expires in June."],
+["renew","v.","ต่ออายุ","Don't forget to renew your membership."],
+["comply","v.","ปฏิบัติตาม","All staff must comply with the rules."],
+["violate","v.","ละเมิด","The supplier violated the contract."]]],
+["🏛️ Corporate",[
+["headquarters","n.","สำนักงานใหญ่","Our headquarters is in Singapore."],
+["branch","n.","สาขา","The bank opened a new branch downtown."],
+["subsidiary","n.","บริษัทลูก","The firm has a subsidiary in Japan."],
+["merger","n.","การควบรวมกิจการ","The merger created the largest bank in the region."],
+["acquisition","n.","การเข้าซื้อกิจการ","The acquisition was completed in March."],
+["shareholder","n.","ผู้ถือหุ้น","Shareholders will meet in May."],
+["board of directors","n.","คณะกรรมการบริษัท","The board of directors approved the plan."],
+["executive","n.","ผู้บริหาร","Two executives will visit our office."],
+["stake","n.","หุ้นส่วน/สัดส่วนการถือหุ้น","They own a 30 percent stake in the company."],
+["annual report","n.","รายงานประจำปี","The annual report is on our website."]]],
+["💻 Technology",[
+["software","n.","ซอฟต์แวร์","We installed new accounting software."],
+["update","v.","อัปเดต","Please update the app to the latest version."],
+["install","v.","ติดตั้ง","The technician will install the printer."],
+["device","n.","อุปกรณ์ (ไฟฟ้า)","Turn off all devices during the flight."],
+["network","n.","เครือข่าย","The network will be down tonight."],
+["password","n.","รหัสผ่าน","Change your password every 90 days."],
+["backup","n.","ข้อมูลสำรอง","Always keep a backup of your files."],
+["malfunction","n.","การทำงานผิดปกติ","A malfunction stopped the machine."],
+["upgrade","v.","อัปเกรด","We upgraded all the computers."],
+["technician","n.","ช่างเทคนิค","A technician fixed the air conditioner."]]],
+["📧 Communication",[
+["correspondence","n.","จดหมายติดต่อ","Keep all correspondence with the client."],
+["notify","v.","แจ้งให้ทราบ","We will notify you when it ships."],
+["inform","v.","แจ้ง","Please inform us of any changes."],
+["confirm","v.","ยืนยัน","Please confirm your booking by email."],
+["reply","v.","ตอบกลับ","I will reply as soon as possible."],
+["attachment","n.","ไฟล์แนบ","The price list is in the attachment."],
+["forward","v.","ส่งต่อ","Please forward this email to the team."],
+["contact","v.","ติดต่อ","Contact us if you have questions."],
+["announce","v.","ประกาศ","The company announced record sales."],
+["circulate","v.","เวียน (เอกสาร)","The memo was circulated to all staff."]]],
+["📋 Projects",[
+["implement","v.","นำไปใช้","We will implement the new system in May."],
+["oversee","v.","ดูแลควบคุม","Ms. Chen oversees the design team."],
+["coordinate","v.","ประสานงาน","He coordinates with the suppliers."],
+["allocate","v.","จัดสรร","We allocated more money to marketing."],
+["milestone","n.","จุดสำคัญ/หลักไมล์ของงาน","Finishing the design was a big milestone."],
+["objective","n.","วัตถุประสงค์","Our main objective is to cut costs."],
+["progress","n.","ความคืบหน้า","Please report your progress every Friday."],
+["task","n.","งาน (ชิ้นหนึ่ง)","This task should take two hours."],
+["assign","v.","มอบหมาย","The manager assigned me a new project."],
+["accomplish","v.","ทำสำเร็จ","We accomplished our goals early."]]],
+["🏠 Property",[
+["lease","n.","สัญญาเช่า","We signed a five-year lease."],
+["tenant","n.","ผู้เช่า","The tenants must pay rent monthly."],
+["landlord","n.","เจ้าของที่ให้เช่า","Call the landlord about the leak."],
+["renovation","n.","การปรับปรุง (อาคาร)","The lobby is closed for renovation."],
+["property","n.","อสังหาริมทรัพย์/ทรัพย์สิน","They bought a property near the beach."],
+["premises","n.","สถานที่ (ของบริษัท)","Smoking is not allowed on the premises."],
+["utility","n.","ค่าน้ำค่าไฟ (สาธารณูปโภค)","Rent includes utilities."],
+["facility","n.","สิ่งอำนวยความสะดวก/อาคาร","The new facility opens next year."],
+["relocate","v.","ย้ายที่ตั้ง","The office will relocate to Silom."],
+["spacious","adj.","กว้างขวาง","The apartment is bright and spacious."]]],
+["⛑️ Safety",[
+["regulation","n.","ข้อบังคับ","Follow all safety regulations."],
+["safety","n.","ความปลอดภัย","Safety is everyone's job."],
+["hazard","n.","อันตราย","Wet floors are a hazard."],
+["protective","adj.","ที่ใช้ป้องกัน","Wear protective glasses in the lab."],
+["inspection","n.","การตรวจสอบ","The building passed the fire inspection."],
+["emergency","n.","เหตุฉุกเฉิน","In an emergency, use the stairs."],
+["evacuate","v.","อพยพ","Staff were evacuated during the drill."],
+["injury","n.","การบาดเจ็บ","No injuries were reported."],
+["precaution","n.","การป้องกันไว้ก่อน","Take precautions when lifting heavy boxes."],
+["mandatory","adj.","ภาคบังคับ","Safety training is mandatory for all staff."]]],
+["🎪 Events",[
+["exhibition","n.","นิทรรศการ","The art exhibition opens on Friday."],
+["trade show","n.","งานแสดงสินค้า","We met many buyers at the trade show."],
+["register","v.","ลงทะเบียน","Please register online by May 1."],
+["attendee","n.","ผู้เข้าร่วมงาน","Over 500 attendees came to the event."],
+["host","v.","เป็นเจ้าภาพ","Our company will host the conference."],
+["sponsor","n.","ผู้สนับสนุน","The bank is the main sponsor."],
+["keynote","n.","ปาฐกถาหลัก","The CEO gave the keynote speech."],
+["banquet","n.","งานเลี้ยงใหญ่","The awards banquet starts at 7 p.m."],
+["ceremony","n.","พิธี","The opening ceremony was short."],
+["admission","n.","ค่าเข้าชม/การเข้า","Admission is free for children."]]],
+["🚌 Commute",[
+["commute","v.","เดินทางไปทำงาน","I commute to work by train."],
+["fare","n.","ค่าโดยสาร","The bus fare is 15 baht."],
+["route","n.","เส้นทาง","This is the fastest route to the airport."],
+["transit","n.","ระบบขนส่ง","Public transit is cheap in this city."],
+["shuttle","n.","รถรับส่ง","A free shuttle runs to the hotel."],
+["vehicle","n.","ยานพาหนะ","Please do not leave your vehicle here."],
+["traffic jam","n.","รถติด","I was stuck in a traffic jam for an hour."],
+["detour","n.","ทางเบี่ยง","Take a detour because of the road work."],
+["parking lot","n.","ลานจอดรถ","The parking lot is behind the building."],
+["pedestrian","n.","คนเดินถนน","This street is for pedestrians only."]]],
+["⚙️ Key Verbs",[
+["acquire","v.","ได้มา/เข้าซื้อ","The firm acquired a small startup."],
+["anticipate","v.","คาดการณ์ล่วงหน้า","We anticipate high demand in December."],
+["assess","v.","ประเมิน","We need to assess the damage."],
+["attain","v.","บรรลุ","She attained the highest score."],
+["enhance","v.","เพิ่มคุณภาพ","The new lighting enhances the room."],
+["ensure","v.","ทำให้แน่ใจ","Please ensure that the door is locked."],
+["evaluate","v.","ประเมินผล","Managers evaluate staff twice a year."],
+["facilitate","v.","อำนวยความสะดวก","The new app facilitates online payments."],
+["obtain","v.","ได้รับ","You must obtain permission first."],
+["verify","v.","ตรวจสอบความถูกต้อง","Please verify your email address."]]],
+["✨ Key Adjectives",[
+["available","adj.","ว่าง/มีให้ใช้","Is Mr. Ito available this afternoon?"],
+["eligible","adj.","มีสิทธิ์","Full-time staff are eligible for a bonus."],
+["efficient","adj.","มีประสิทธิภาพ","The new printer is fast and efficient."],
+["flexible","adj.","ยืดหยุ่น","We offer flexible working hours."],
+["reliable","adj.","เชื่อถือได้","We need a reliable supplier."],
+["temporary","adj.","ชั่วคราว","She has a temporary job in July."],
+["permanent","adj.","ถาวร","He was offered a permanent position."],
+["preliminary","adj.","เบื้องต้น","The preliminary results look good."],
+["substantial","adj.","จำนวนมาก/มาก","We saw a substantial increase in sales."],
+["tentative","adj.","ยังไม่แน่นอน","The date is tentative for now."]]],
+["🏃 Key Adverbs",[
+["approximately","adv.","ประมาณ","The trip takes approximately two hours."],
+["immediately","adv.","ทันที","Please call me immediately."],
+["previously","adv.","ก่อนหน้านี้","She previously worked at a bank."],
+["currently","adv.","ปัจจุบัน","We are currently hiring."],
+["frequently","adv.","บ่อย","These questions are asked frequently."],
+["promptly","adv.","อย่างรวดเร็ว/ตรงเวลา","The meeting started promptly at nine."],
+["primarily","adv.","เป็นหลัก","The store sells primarily to tourists."],
+["accordingly","adv.","ตามนั้น/อย่างเหมาะสม","Prices changed, so we updated the list accordingly."],
+["significantly","adv.","อย่างมีนัยสำคัญ","Costs fell significantly this year."],
+["temporarily","adv.","ชั่วคราว","The shop is temporarily closed."]]],
+["📈 Strategy",[
+["expand","v.","ขยาย","We plan to expand into Vietnam."],
+["growth","n.","การเติบโต","The company saw strong growth."],
+["strategy","n.","กลยุทธ์","We need a new marketing strategy."],
+["competitive","adj.","ที่แข่งขันได้","Our prices are very competitive."],
+["decline","v.","ลดลง","Sales declined in the second quarter."],
+["demand","n.","ความต้องการ","Demand for electric cars is rising."],
+["supply","n.","อุปทาน/สินค้าที่มี","Supply cannot keep up with demand."],
+["trend","n.","แนวโน้ม","Online shopping is a growing trend."],
+["innovation","n.","นวัตกรรม","The company is known for innovation."],
+["investment","n.","การลงทุน","The new factory is a big investment."]]],
+["🖨️ Supplies",[
+["photocopier","n.","เครื่องถ่ายเอกสาร","The photocopier is out of paper."],
+["projector","n.","เครื่องฉายภาพ","Please turn on the projector."],
+["filing cabinet","n.","ตู้เก็บเอกสาร","The files are in the filing cabinet."],
+["toner","n.","ผงหมึก","The printer needs new toner."],
+["envelope","n.","ซองจดหมาย","Put the letter in an envelope."],
+["label","n.","ฉลาก/ป้าย","Write your name on the label."],
+["stapler","n.","ที่เย็บกระดาษ","Can I borrow your stapler?"],
+["supplies","n.","อุปกรณ์สิ้นเปลือง","Office supplies are in the storage room."],
+["brochure","n.","แผ่นพับ/โบรชัวร์","Take a brochure at the front desk."],
+["catalog","n.","แคตตาล็อก","Our new catalog shows all our products."]]],
+["🎓 Training",[
+["workshop","n.","การอบรมเชิงปฏิบัติการ","I joined a writing workshop."],
+["seminar","n.","การสัมมนา","The seminar is about digital marketing."],
+["orientation","n.","การปฐมนิเทศ","New staff attend orientation on Monday."],
+["trainee","n.","ผู้ฝึกงาน","Each trainee has a mentor."],
+["instructor","n.","ผู้สอน","The instructor explained everything clearly."],
+["certificate","n.","ใบรับรอง","You will get a certificate after the course."],
+["skill","n.","ทักษะ","Communication is an important skill."],
+["mentor","n.","พี่เลี้ยง/ที่ปรึกษา","My mentor gave me great advice."],
+["session","n.","รอบ/ช่วง (การอบรม)","The morning session ends at noon."],
+["enroll","v.","ลงทะเบียนเรียน","She enrolled in an English course."]]],
+["🌱 Environment",[
+["recycle","v.","รีไซเคิล","Please recycle your plastic bottles."],
+["conserve","v.","อนุรักษ์/ประหยัด","Turn off the lights to conserve energy."],
+["sustainable","adj.","ยั่งยืน","We use sustainable materials."],
+["emission","n.","การปล่อย (ก๊าซ)","The plan will cut carbon emissions."],
+["renewable","adj.","หมุนเวียนได้","Solar power is a renewable energy source."],
+["consumption","n.","การบริโภค/การใช้","Energy consumption fell by 10 percent."],
+["waste","n.","ของเสีย/ขยะ","The factory reduced its waste."],
+["reduce","v.","ลด","We need to reduce costs."],
+["environmental","adj.","เกี่ยวกับสิ่งแวดล้อม","The company has strict environmental rules."],
+["solar","adj.","เกี่ยวกับพลังงานแสงอาทิตย์","They put solar panels on the roof."]]],
+["🔗 Phrasal Verbs",[
+["fill out","v.","กรอก (แบบฟอร์ม)","Please fill out this form."],
+["set up","v.","ติดตั้ง/จัดตั้ง","Can you set up the projector?"],
+["carry out","v.","ดำเนินการ","We carried out a customer survey."],
+["look into","v.","ตรวจสอบ/พิจารณา","I will look into the problem today."],
+["call off","v.","ยกเลิก","They called off the meeting."],
+["turn down","v.","ปฏิเสธ","She turned down the job offer."],
+["put off","v.","เลื่อนออกไป","Let's put off the decision until Monday."],
+["hand in","v.","ส่ง (งาน)","Please hand in your report by Friday."],
+["go over","v.","ทบทวน/ตรวจดู","Let's go over the plan again."],
+["run out of","v.","หมด (ของใช้)","We ran out of paper."]]]
+];
+const DWORDS=DAILY_THEMES.flatMap(([th,ws])=>ws.map(w=>({w:w[0],pos:w[1],th:w[2],ex:w[3],theme:th})));
+
+const RANKS=[[1,"มือใหม่ (~300)"],[3,"Beginner (~400)"],[5,"Intermediate (~550)"],[8,"Upper-Int (~700)"],[12,"Advanced (~800)"],[16,"Pro (~900)"],[20,"TOEIC Master (990)"]];
+
+/* ===== STORAGE ===== */
+const KEY="toeicQuest_v1";
+let save={vw:{},dv:{},srs:{},ls:{},lastReview:"",stars:{},read:{},xp:0,played:0,correct:0,answered:0,maxCombo:0,best:{},streak:0,last:""};
+try{const s=JSON.parse(localStorage.getItem(KEY));if(s)save=Object.assign(save,s)}catch(e){}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(save))}catch(e){}}
+
+const XP_PER_LV=250;
+const lvOf=xp=>Math.floor(xp/XP_PER_LV)+1;
+const rankOf=lv=>{let r=RANKS[0][1];for(const[l,n]of RANKS)if(lv>=l)r=n;return r};
+
+/* ===== HELPERS ===== */
+const $=id=>document.getElementById(id);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function vib(p){try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}}
+function show(id){["home","games","academy","lesson","daily","play","end"].forEach(s=>$(s).classList.toggle("hidden",s!==id));window.scrollTo(0,0)}
+const dayStr=(off=0)=>{const d=new Date();d.setDate(d.getDate()+off);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const today=()=>dayStr(0);
+const daysSince=s=>s?Math.round((new Date(today())-new Date(s))/864e5):999;
+
+/* ===== HOME ===== */
+const MODES={
+ grammar:{name:"Grammar Rush",color:"var(--g)",time:20},
+ vocab:{name:"Vocab Blitz",color:"var(--v)",time:10},
+ reading:{name:"Reading Mission",color:"var(--r)",time:0},
+ mix:{name:"Quick Mix",color:"var(--bad)",time:15},
+ game:{name:"Game Vocab",color:"#7bd389",time:15},
+ practice:{name:"ฝึกทำ",color:"#5b8cff",time:0},
+ review:{name:"ทบทวนวันนี้",color:"#ff7ac6",time:0},
+ daily:{name:"Daily Vocab",color:"var(--v)",time:0},
+ lexam:{name:"สอบรายบท",color:"var(--g)",time:25},
+ uexam:{name:"สอบรวม Unit",color:"var(--g)",time:25}
+};
+const LEARN=["practice","lexam","uexam"];
+function renderHome(){
+  const lv=lvOf(save.xp),inLv=save.xp%XP_PER_LV;
+  $("lv").textContent="Lv."+lv;
+  $("rank").textContent=rankOf(lv);
+  $("xptxt").textContent=inLv+" / "+XP_PER_LV+" XP";
+  $("xpbar").style.width=(inLv/XP_PER_LV*100)+"%";
+  $("sPlayed").textContent=save.played;
+  $("sAcc").textContent=save.answered?Math.round(save.correct/save.answered*100)+"%":"–";
+  $("sCombo").textContent=save.maxCombo;
+  // streak validity
+  const st=(save.last===today()||save.last===dayStr(-1))?save.streak:0;
+  $("streak").textContent="🔥 "+st+" วัน";
+  {const ids=Object.keys(LESSONS);$("b-academy").innerHTML="อ่านแล้ว<br><b style='color:var(--text)'>"+ids.filter(i=>save.read[i]).length+"/"+ids.length+"</b>";}
+  renderReviewCard();renderDailyCard();
+  for(const m of ["grammar","vocab","reading","mix"])$("b-"+m).innerHTML=save.best[m]?"สถิติ<br><b style='color:var(--text)'>"+save.best[m]+"</b>":"";
+}
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>start(b.dataset.mode));
+
+/* ===== BUILD QUESTIONS ===== */
+function gQ(item){
+  const [s,o,a,ex]=item;const opts=o.map((t,i)=>({t,ok:i===a}));
+  return {tag:"PART 5 · GRAMMAR",html:esc(s).replace("___","<span class='blank'></span>"),opts:shuffle(opts),ex,ans:o[a],plain:s.replace("___","["+o[a]+"]")};
+}
+function vQ(item){
+  const [w,th]=item;const en2th=Math.random()<.6;
+  const others=shuffle(VOCAB.filter(v=>v[0]!==w)).slice(0,3);
+  if(en2th){
+    return {tag:"VOCAB · แปลเป็นไทย",big:true,html:esc(w),hint:"คำนี้แปลว่าอะไร?",
+      opts:shuffle([{t:th,ok:true},...others.map(v=>({t:v[1],ok:false}))]),ex:w+" = "+th,ans:th,plain:w};
+  }
+  return {tag:"VOCAB · เลือกคำศัพท์",big:true,html:esc(th),hint:"ภาษาอังกฤษคือคำไหน?",
+    opts:shuffle([{t:w,ok:true},...others.map(v=>({t:v[0],ok:false}))]),ex:th+" = "+w,ans:w,plain:th};
+}
+function gameQ(item,pool){
+  const [w,th,s,biz]=item;const b=biz?"<span class='biz'>💼 TOEIC</span>":"";
+  const re=new RegExp("\\b("+w+"\\w*)","i");
+  const others=shuffle(pool.filter(v=>v[0]!==w)).slice(0,3);
+  const ex=w+" = "+th+(biz?" · 💼 คำนี้ออกสอบ TOEIC ด้วย":"")+"\n"+s;
+  if(Math.random()<.5){
+    return {tag:"GAME VOCAB · แปลเป็นไทย",big:true,html:esc(w)+b+"<div class='ex'>"+esc(s).replace(re,"<mark>$1</mark>")+"</div>",
+      opts:shuffle([{t:th,ok:true},...others.map(v=>({t:v[1],ok:false}))]),ex,ans:th,plain:s};
+  }
+  return {tag:"GAME VOCAB · เติมคำ",html:esc(s).replace(re,"<span class='blank'></span>")+"<div class='hint' style='margin-top:10px'>ใบ้: "+esc(th)+"</div>",
+    opts:shuffle([{t:w,ok:true},...others.map(v=>({t:v[0],ok:false}))]),ex,ans:w,plain:s};
+}
+function build(mode,game){
+  if(mode==="game"){const pool=GAMES[game].words;return shuffle(pool).slice(0,12).map(i=>gameQ(i,pool));}
+  const tagL=(qs,t,id)=>qs.map(x=>{const o=gQ(x);o.tag=t;o.src=id;return o});
+  if(mode==="review")return buildReview();
+  if(mode==="daily")return buildDaily();
+  if(mode==="practice"){const l=LESSONS[game];return tagL(lessonSet(game,6,2),"✏️ ฝึก · "+l.t,game);}
+  if(mode==="lexam"){const l=LESSONS[game];return tagL(lessonSet(game,10,3),"📝 สอบ · "+l.t,game);}
+  if(mode==="uexam"){const u=UNITS.find(x=>x.id===game);return shuffle(u.lessons.flatMap(id=>tagL(lessonSet(id,3,1),"📝 "+u.name.split(" · ")[0]+" · "+LESSONS[id].t,id))).slice(0,12);}
+  if(mode==="grammar"){const ids=Object.keys(LESSONS);const g=[];const seen=new Set();while(g.length<7){const id=R(ids),q=genQ(id);if(q&&!seen.has(q[0])){seen.add(q[0]);const o=gQ(q);o.src=id;g.push(o)}}return shuffle([...shuffle(GRAMMAR).slice(0,3).map(gQ),...g]);}
+  if(mode==="vocab")return shuffle(VOCAB).slice(0,12).map(vQ);
+  if(mode==="mix")return shuffle([...shuffle(GRAMMAR).slice(0,8).map(gQ),...shuffle(VOCAB).slice(0,7).map(vQ)]);
+  const out=[];
+  shuffle(READING).slice(0,2).forEach(r=>r.qs.forEach(([q,o])=>{
+    out.push({tag:"PART 7 · "+r.t,passage:r.p,html:esc(q),opts:shuffle(o.map((t,i)=>({t,ok:i===0}))),ex:"คำตอบอยู่ในเนื้อเรื่อง ลองหาคำสำคัญจากคำถามแล้วอ่านรอบ ๆ ตรงนั้น",ans:o[0],plain:q});
+  }));
+  return out;
+}
+
+/* ===== REVIEW (spaced repetition) ===== */
+const SRS_INT=[1,3,7,14,30]; // days until next review for box 0..4
+const qKey=q=>(q.plain||q.html)+"|"+q.ans;
+function track(q,ok){
+  if(q.src&&LESSONS[q.src]){const s=save.ls[q.src]||(save.ls[q.src]={n:0,c:0,last:""});s.n++;if(ok)s.c++;s.last=today();
+    if(s.n>40){s.n=Math.round(s.n/2);s.c=Math.round(s.c/2);}} // keep accuracy recent-ish
+  const k=qKey(q),item=save.srs[k];
+  if(!ok){
+    const copy=Object.assign({},q);delete copy.passage;if(q.passage)copy.passage=q.passage;
+    save.srs[k]={q:copy,box:0,due:dayStr(1),src:q.src||""};
+    const keys=Object.keys(save.srs);if(keys.length>400){keys.sort((a,b)=>save.srs[a].due<save.srs[b].due?1:-1);delete save.srs[keys[0]];}
+  }else if(item&&G.mode==="review"){
+    item.box++;if(item.box>=SRS_INT.length)delete save.srs[k];else item.due=dayStr(SRS_INT[item.box]);
+  }
+  persist();
+}
+const dueItems=()=>Object.entries(save.srs).filter(([k,v])=>v.due<=today()).sort((a,b)=>a[1].due<b[1].due?-1:1);
+function isWeak(id){const s=save.ls[id];if(!s||!s.n)return false;return s.c/s.n<.7||daysSince(s.last)>=7;}
+function lessonWeight(id){const s=save.ls[id];if(!s||!s.n)return save.read[id]?.6:0;const acc=s.c/s.n;return (1-acc)*2+Math.min(daysSince(s.last),14)*.1+.2;}
+function buildReview(){
+  const out=[],seen=new Set();
+  dueItems().slice(0,8).forEach(([k,v])=>{const q=Object.assign({},v.q);q.opts=shuffle(q.opts);q.tag="🔁 ข้อที่เคยผิด"+(v.box?" · รอบ "+(v.box+1):"");seen.add(k);out.push(q)});
+  const ids=Object.keys(LESSONS).filter(id=>lessonWeight(id)>0);
+  let guard=0;
+  while(out.length<12&&guard++<300){
+    let id;
+    if(ids.length){let tot=ids.reduce((a,i)=>a+lessonWeight(i),0),r=Math.random()*tot;id=ids.find(i=>(r-=lessonWeight(i))<=0)||ids[0];}
+    else id=R(Object.keys(LESSONS));
+    const raw=Math.random()<.25?R(LESSONS[id].q):genQ(id);if(!raw)continue;
+    const q=gQ(raw);q.src=id;q.tag="🔁 ทวน · "+LESSONS[id].t;const k=qKey(q);
+    if(seen.has(k))continue;seen.add(k);out.push(q);
+  }
+  return shuffle(out);
+}
+function renderReviewCard(){
+  const due=dueItems().length,done=save.lastReview===today();
+  const weak=Object.keys(LESSONS).filter(isWeak).map(i=>LESSONS[i].t);
+  $("openReview").classList.toggle("done",done);
+  $("rvBadge").innerHTML=done?"<span class='pill ok'>✓</span>":due?"<span class='pill'>"+due+"</span>":"";
+  $("rvSub").textContent=done?"ทบทวนวันนี้แล้ว 🎉 เล่นซ้ำได้อีก":
+    (due?"ข้อที่เคยผิดถึงรอบทวน "+due+" ข้อ":"ยังไม่มีข้อที่ต้องทวน")+(weak.length?" · ควรทวน: "+weak.slice(0,2).join(", ")+(weak.length>2?" ฯลฯ":""):"")+" · 12 ข้อ";
+}
+$("openReview").onclick=()=>start("review");
+
+/* ===== DAILY VOCAB ===== */
+const DW={};DWORDS.forEach(d=>DW[d.w]=d);
+function say(t){try{const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function dailyPlan(){
+  if(save.dv.date!==today()){
+    const newW=DWORDS.filter(d=>!save.vw[d.w]).slice(0,10).map(d=>d.w);
+    const revW=Object.keys(save.vw).filter(w=>DW[w]&&save.vw[w].box<5&&save.vw[w].due<=today()).sort((a,b)=>save.vw[a].due<save.vw[b].due?-1:1).slice(0,20);
+    save.dv={date:today(),newW,revW,done:false,day:(save.dv.day||0)+1};persist();
+  }
+  return save.dv;
+}
+const hlWord=(ex,w)=>esc(ex).replace(new RegExp("\\b("+w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")\\b","i"),"<mark>$1</mark>");
+function wordCard(d,rv){
+  return "<div class='wcard"+(rv?" rvw":"")+"'><div class='top1'><span class='w'>"+esc(d.w)+"</span><span class='pos'>"+d.pos+"</span><button class='say' data-w=\""+esc(d.w)+"\">🔊</button></div>"+
+    "<div class='th'>"+esc(d.th)+"</div><div class='exs'>"+hlWord(d.ex,d.w)+"</div></div>";
+}
+function dvStats(){const v=Object.values(save.vw);return{seen:v.length,known:v.filter(x=>x.box>=2).length,master:v.filter(x=>x.box>=5).length}}
+function openDaily(){
+  const p=dailyPlan(),st=dvStats();
+  const themes=[...new Set(p.newW.map(w=>DW[w].theme))];
+  $("dTitle").innerHTML="📅 Daily Vocab · วันที่ "+p.day+"<small>"+(themes.length?"ธีมวันนี้: "+esc(themes.join(" + ")):"เรียนครบ 300 คำแล้ว · ทวนอย่างเดียว")+"</small>";
+  $("dvTxt").textContent="เรียนแล้ว "+st.seen+" · จำได้ "+st.known+" · แม่นถาวร "+st.master;
+  $("dvBar").style.width=(st.known/DWORDS.length*100)+"%";
+  let html="";
+  if(p.revW.length)html+="<div class='sec'>🔁 คำที่ต้องทวน ("+p.revW.length+" คำ)</div>"+p.revW.map(w=>wordCard(DW[w],1)).join("");
+  if(p.newW.length)html+="<div class='sec'>🆕 คำใหม่วันนี้ ("+p.newW.length+" คำ) · แตะ 🔊 เพื่อฟังเสียง</div>"+p.newW.map(w=>wordCard(DW[w],0)).join("");
+  if(!html)html="<div class='sec'>เรียนครบทุกคำแล้วและไม่มีคำที่ต้องทวนวันนี้ 🎉</div>";
+  $("dList").innerHTML=html;
+  $("dList").querySelectorAll(".say").forEach(b=>b.onclick=()=>say(b.dataset.w));
+  const n=p.revW.length+p.newW.length;
+  $("dStart").textContent=n?(p.done?"ทดสอบซ้ำ ("+n+" ข้อ)":"เริ่มทดสอบ ("+n+" ข้อ)"):"ไม่มีคำให้ทดสอบวันนี้";
+  $("dStart").disabled=!n;
+  show("daily");
+}
+function dailyQ(w,isRev){
+  const d=DW[w];const same=DWORDS.filter(x=>x.w!==w&&x.pos===d.pos);const pool=same.length>=3?same:DWORDS.filter(x=>x.w!==w);
+  const others=shuffle(pool).slice(0,3);
+  const re=new RegExp("\\b"+w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b","i");
+  const types=["en","th"];if(re.test(d.ex))types.push("blank","blank");
+  const t=R(types);const tag=(isRev?"🔁 ทวน":"📅 คำใหม่")+" · "+d.theme;
+  const ex=d.w+" ("+d.pos+") = "+d.th+"\n"+d.ex;
+  let q;
+  if(t==="en")q={tag,big:true,html:esc(d.w)+"<div class='hint'>"+d.pos+" · แปลว่าอะไร?</div>",opts:shuffle([{t:d.th,ok:true},...others.map(o=>({t:o.th,ok:false}))]),ans:d.th};
+  else if(t==="th")q={tag,big:true,html:esc(d.th)+"<div class='hint'>"+d.pos+" · ภาษาอังกฤษคือคำไหน?</div>",opts:shuffle([{t:d.w,ok:true},...others.map(o=>({t:o.w,ok:false}))]),ans:d.w};
+  else q={tag,html:esc(d.ex).replace(re,"<span class='blank'></span>")+"<div class='hint' style='margin-top:10px'>ใบ้: "+esc(d.th)+"</div>",opts:shuffle([{t:d.w,ok:true},...others.map(o=>({t:o.w,ok:false}))]),ans:d.w};
+  q.ex=ex;q.plain=d.w;q.word=w;return q;
+}
+function buildDaily(){const p=dailyPlan();return shuffle([...p.revW.map(w=>dailyQ(w,1)),...p.newW.map(w=>dailyQ(w,0))]);}
+function trackDaily(q,ok){
+  if(save.dv.done)return; // retakes on the same day don't change the schedule
+  const w=q.word,s=save.vw[w];
+  if(!ok)save.vw[w]={box:0,due:dayStr(1)};
+  else if(!s)save.vw[w]={box:1,due:dayStr(SRS_INT[1])};
+  else{const b=s.box+1;save.vw[w]=b>=SRS_INT.length?{box:5,due:"9999-12-31"}:{box:b,due:dayStr(SRS_INT[b])};}
+  persist();
+}
+function renderDailyCard(){
+  const p=dailyPlan();const done=p.done;const n=p.newW.length,r=p.revW.length;
+  const themes=[...new Set(p.newW.map(w=>DW[w].theme))];
+  $("openDaily").classList.toggle("done",done);
+  $("dvBadge").innerHTML=done?"<span class='pill ok'>✓</span>":(n+r)?"<span class='pill' style='background:var(--v);color:#06302c'>"+(n+r)+"</span>":"";
+  $("dvSub").textContent=done?"วันนี้เสร็จแล้ว 🎉 จำได้ "+dvStats().known+" คำ":(themes.length?themes[0]+" · ":"")+(n?n+" คำใหม่":"")+(r?(n?" + ":"")+"ทวน "+r+" คำ":"");
+}
+$("openDaily").onclick=openDaily;
+$("dBack").onclick=()=>{renderHome();show("home")};
+$("dStart").onclick=()=>start("daily");
+
+/* ===== GAME ===== */
+let G=null,tick=null;
+function start(mode,game){
+  G={mode,game,qs:build(mode,game),i:0,score:0,combo:0,maxCombo:0,lives:(mode==="practice"||mode==="review"||mode==="daily")?Infinity:3,correct:0,wrong:[],locked:false};
+  document.documentElement.style.setProperty("--accent",MODES[mode].color);
+  $("timerWrap").classList.toggle("hidden",!MODES[mode].time);
+  show("play");renderQ();
+}
+function renderHUD(){
+  $("prog").style.width=(G.i/G.qs.length*100)+"%";
+  $("hearts").textContent=isFinite(G.lives)?"❤️".repeat(Math.max(0,G.lives))+"🖤".repeat(3-Math.max(0,G.lives)):(G.mode==="review"?"🔁 ทบทวน":G.mode==="daily"?"📅 Daily":"✏️ ฝึก");
+  $("score").textContent=G.score;
+  const c=$("combo");
+  if(G.combo>=2){c.textContent="x"+G.combo+" COMBO 🔥";c.classList.add("on");c.classList.remove("pop");void c.offsetWidth;c.classList.add("pop")}
+  else c.classList.remove("on");
+}
+function renderQ(){
+  const q=G.qs[G.i];G.locked=false;renderHUD();
+  $("tag").textContent=q.tag;
+  const p=$("passage");
+  if(q.passage){p.textContent=q.passage;p.classList.remove("hidden")}else p.classList.add("hidden");
+  const qe=$("q");qe.className="q"+(q.big?" big":"");
+  qe.innerHTML=q.html+(q.hint?"<div class='hint'>"+q.hint+"</div>":"");
+  const box=$("opts");box.innerHTML="";
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement("button");b.className="opt";
+    b.innerHTML="<span class='k'>"+"ABCD"[i]+"</span><span>"+esc(o.t)+"</span>";
+    b.onclick=e=>answer(o,b,e);box.appendChild(b);
+  });
+  startTimer();
+}
+function startTimer(){
+  clearInterval(tick);const T=MODES[G.mode].time;if(!T)return;
+  G.t0=Date.now();const bar=$("timer");
+  tick=setInterval(()=>{
+    const left=Math.max(0,1-(Date.now()-G.t0)/(T*1000));
+    bar.style.width=left*100+"%";
+    bar.style.background=left>.5?"var(--ok)":left>.25?"var(--g)":"var(--bad)";
+    if(left<=0){clearInterval(tick);answer(null,null,null)}
+  },50);
+}
+function answer(o,btn,ev){
+  if(G.locked)return;G.locked=true;clearInterval(tick);
+  const q=G.qs[G.i];const T=MODES[G.mode].time;
+  const all=[...$("opts").children];
+  all.forEach((b,i)=>{if(q.opts[i].ok)b.classList.add("ok");else if(b!==btn)b.classList.add("dim")});
+  if(G.mode==="daily")trackDaily(q,!!(o&&o.ok));else track(q,!!(o&&o.ok));
+  if(o&&o.ok){
+    G.combo++;G.correct++;G.maxCombo=Math.max(G.maxCombo,G.combo);
+    const tb=T?Math.round(50*Math.max(0,1-(Date.now()-G.t0)/(T*1000))):30;
+    const pts=100+tb+(G.combo>=2?G.combo*20:0);G.score+=pts;
+    floatPts("+"+pts,ev);vib(20);
+    fb(true,["เยี่ยม! 🎉","ถูกต้อง! ✨","Perfect! 💯","เก่งมาก! 🚀"][Math.random()*4|0],q.ex);
+  }else{
+    if(btn)btn.classList.add("bad");
+    G.combo=0;G.lives--;vib([60,40,60]);
+    G.wrong.push(q);
+    fb(false,o?"ยังไม่ใช่ 😅":"หมดเวลา! ⏰","คำตอบ: "+q.ans+(q.ex?" — "+q.ex:""));
+  }
+  renderHUD();
+}
+function floatPts(t,ev){
+  const f=document.createElement("div");f.className="float";f.textContent=t;
+  const x=ev?ev.clientX:innerWidth/2,y=ev?ev.clientY:innerHeight/2;
+  f.style.left=(x-30)+"px";f.style.top=(y-30)+"px";document.body.appendChild(f);setTimeout(()=>f.remove(),900);
+}
+function fb(good,t,p){
+  const el=$("fb");el.className="fb show "+(good?"good":"wrong");
+  $("fbT").textContent=t;$("fbP").textContent=p;
+  $("next").textContent=(G.lives<=0||G.i>=G.qs.length-1)?"ดูผลลัพธ์":"ต่อไป";
+}
+$("next").onclick=()=>{
+  $("fb").classList.remove("show");
+  if(G.lives<=0||G.i>=G.qs.length-1)return finish();
+  G.i++;renderQ();
+};
+$("quit").onclick=()=>{clearInterval(tick);$("fb").classList.remove("show");goBack()};
+
+/* ===== END ===== */
+function finish(){
+  clearInterval(tick);
+  const n=G.qs.length,answered=G.i+1,acc=G.correct/n;
+  const stars=G.lives<=0?0:acc>=.9?3:acc>=.7?2:acc>=.5?1:0;
+  const xp=Math.round(G.score/10)+(stars*10);
+  const oldLv=lvOf(save.xp);
+  if(G.mode==="review")save.lastReview=today();
+  if(G.mode==="daily"&&save.dv.date===today())save.dv.done=true;
+  save.xp+=xp;save.played++;save.correct+=G.correct;save.answered+=answered;
+  save.maxCombo=Math.max(save.maxCombo,G.maxCombo);
+  const bk=G.mode==="game"?"game-"+G.game:LEARN.includes(G.mode)?G.mode[0]+"-"+G.game:G.mode;save.stars[bk]=Math.max(save.stars[bk]||0,stars);const newBest=G.score>(save.best[bk]||0);if(newBest)save.best[bk]=G.score;
+  const t=today(),y=dayStr(-1);
+  if(save.last!==t){save.streak=save.last===y?save.streak+1:1;save.last=t}
+  persist();
+  const newLv=lvOf(save.xp);
+
+  $("stars").textContent="⭐".repeat(stars)+"☆".repeat(3-stars);
+  $("endTitle").textContent=G.lives<=0?"Game Over 💥":stars===3?"สุดยอด! 🏆":stars===2?"ดีมาก! 👏":stars===1?"ผ่านแล้ว! 💪":"ลองใหม่อีกนิดนะ 💪";
+  $("endScore").textContent=G.score;
+  $("endSub").textContent=(newBest?"🎉 สถิติใหม่! · ":"")+"ถูก "+G.correct+"/"+n+" ข้อ";
+  $("eCorrect").textContent=G.correct+"/"+n;$("eCombo").textContent=G.maxCombo;$("eXp").textContent="+"+xp;
+  const lu=$("lvup");
+  if(newLv>oldLv){lu.textContent="⬆️ เลเวลอัป! Lv."+newLv+" · "+rankOf(newLv);lu.classList.remove("hidden")}else lu.classList.add("hidden");
+  $("review").innerHTML=G.wrong.length?"<h3>"+(G.mode==="daily"?"คำที่พลาด · จะกลับมาให้ทวนพรุ่งนี้":"ทบทวนข้อที่พลาด")+"</h3>"+G.wrong.map(q=>
+    "<div class='rv'>"+esc(q.plain)+"<br>✅ <b>"+esc(q.ans)+"</b>"+(q.ex?"<small>"+esc(q.ex)+"</small>":"")+"</div>").join(""):"";
+  $("home2").textContent=G.mode==="practice"||G.mode==="lexam"?"กลับไปที่บทเรียน":G.mode==="uexam"?"กลับ Academy":G.mode==="review"?"กลับหน้าหลัก":G.mode==="daily"?"ดูคำศัพท์วันนี้":G.mode==="game"?"เลือกเกมอื่น":"กลับหน้าหลัก";
+  show("end");
+}
+$("again").onclick=()=>start(G.mode,G.game);
+function renderGames(){
+  const L=$("gameList");L.innerHTML="";
+  for(const k in GAMES){const g=GAMES[k];const b=document.createElement("button");b.className="mode gv";
+    const best=save.best["game-"+k];
+    b.innerHTML="<div class='ic'>"+g.emoji+"</div><div><b>"+esc(g.name)+"</b><small>"+g.words.length+" คำ · สุ่มรอบละ 12 คำ</small></div><div class='best'>"+(best?"สถิติ<br><b style='color:var(--text)'>"+best+"</b>":"")+"</div>";
+    b.onclick=()=>start("game",k);L.appendChild(b);}
+  SOON.forEach(n=>{const d=document.createElement("div");d.className="mode soon";
+    d.innerHTML="<div class='ic'>🔒</div><div><b>"+esc(n)+"</b><small>เร็ว ๆ นี้</small></div>";L.appendChild(d);});
+}
+$("openGames").onclick=()=>{renderGames();show("games")};
+$("gBack").onclick=()=>{renderHome();show("home")};
+function goBack(){
+  if(G&&(G.mode==="practice"||G.mode==="lexam"))return openLesson(G.game);
+  if(G&&G.mode==="uexam"){renderAcademy();return show("academy");}
+  if(G&&G.mode==="game"){renderGames();return show("games");}
+  if(G&&G.mode==="daily")return openDaily();
+  renderHome();show("home");
+}
+$("home2").onclick=goBack;
+function starTxt(k){const s=save.stars[k];return s==null?"":"⭐".repeat(s)+"☆".repeat(3-s)}
+function renderAcademy(){
+  const ids=Object.keys(LESSONS);const read=ids.filter(i=>save.read[i]).length;const pass=ids.filter(i=>(save.stars["l-"+i]||0)>=1).length;
+  $("acTxt").textContent="อ่าน "+read+"/"+ids.length+" · สอบผ่าน "+pass+"/"+ids.length;
+  $("acBar").style.width=((read+pass)/(ids.length*2)*100)+"%";
+  const box=$("unitList");box.innerHTML="";
+  UNITS.forEach(u=>{
+    const hd=document.createElement("div");hd.className="unit";
+    hd.innerHTML="<b>"+esc(u.name)+"</b>";
+    const ub=document.createElement("button");ub.className="ubtn";ub.textContent="📝 สอบ Unit "+(starTxt("u-"+u.id)||"");
+    ub.onclick=()=>start("uexam",u.id);hd.appendChild(ub);box.appendChild(hd);
+    u.lessons.forEach((id,n)=>{const l=LESSONS[id];const b=document.createElement("button");b.className="les";
+      const st=starTxt("l-"+id);
+      const ls=save.ls[id];const acc=ls&&ls.n?Math.round(ls.c/ls.n*100):null;
+      b.innerHTML="<div class='ic'>"+l.e+"</div><div><b>"+esc(l.t)+"</b><small>"+esc(l.s)+"</small></div><div class='st'>"+(st||(save.read[id]?"✓ อ่านแล้ว":"ใหม่"))+(acc!=null?"<br>แม่น "+acc+"%":"")+(isWeak(id)?"<span class='weak'>🔁 ควรทวน</span>":"")+"</div>";
+      b.onclick=()=>openLesson(id);box.appendChild(b);});
+  });
+}
+function openLesson(id){
+  const l=LESSONS[id];save.read[id]=1;persist();
+  $("lTitle").innerHTML=l.e+" "+esc(l.t)+"<small>"+esc(l.s)+" · คลังข้อสอบ "+bankSize(id).toLocaleString()+" ข้อ</small>";
+  $("lBody").innerHTML=l.c;
+  $("lPractice").onclick=()=>start("practice",id);
+  $("lExam").onclick=()=>start("lexam",id);
+  show("lesson");
+}
+$("openAcademy").onclick=()=>{renderAcademy();show("academy")};
+$("aBack").onclick=()=>{renderHome();show("home")};
+$("lBack").onclick=()=>{renderAcademy();show("academy")};
+
+renderHome();
+</script>
+</body>
+</html>
